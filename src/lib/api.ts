@@ -407,6 +407,21 @@ export const api = {
       body: JSON.stringify({ email, password }),
     })
   },
+  async register(email: string, password: string, displayName?: string): Promise<ApiUser> {
+    return fetchJson<ApiUser>(`${API_BASE}/auth/register`, {
+      method: 'POST',
+      body: JSON.stringify({ email, password, displayName }),
+    })
+  },
+  async googleAuth(credential: string): Promise<ApiUser> {
+    return fetchJson<ApiUser>(`${API_BASE}/auth/google`, {
+      method: 'POST',
+      body: JSON.stringify({ credential }),
+    })
+  },
+  async getGoogleClientId(): Promise<{ clientId: string | null; registrationEnabled: boolean }> {
+    return fetchJson<{ clientId: string | null; registrationEnabled: boolean }>(`${API_BASE}/auth/google-client-id`)
+  },
   async logout(): Promise<void> {
     await fetchJson(`${API_BASE}/auth/logout`, { method: 'POST' })
   },

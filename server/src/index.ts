@@ -8,6 +8,7 @@ import { signToken, setAuthCookie, clearAuthCookie, requireAuth, requireRole, ge
 import type { Role, Frequency, TaskStatus } from '@prisma/client'
 import { ldapAuthenticate } from './ldap'
 import crypto from 'crypto'
+import { OAuth2Client } from 'google-auth-library'
 import sql from 'mssql'
 import * as XLSX from 'xlsx'
 import { jsPDF } from 'jspdf'
@@ -23,6 +24,9 @@ const JIRA_ISSUE_BROWSE_URL = process.env.JIRA_ISSUE_BROWSE_URL || ''
 const JIRA_USER_SEARCH_URL = process.env.JIRA_USER_SEARCH_URL || ''
 const JIRA_BASIC_AUTH = process.env.JIRA_BASIC_AUTH || ''
 const JIRA_DEFAULT_PROJECT_KEY = process.env.JIRA_DEFAULT_PROJECT_KEY || ''
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || ''
+const ALLOW_REGISTRATION = (process.env.ALLOW_REGISTRATION || 'true').toLowerCase() === 'true'
+const googleOAuthClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null
 const JIRA_DEFAULT_ISSUE_TYPE = process.env.JIRA_DEFAULT_ISSUE_TYPE || 'Task'
 const JIRA_CONTACT_CUSTOM_FIELD_ID = process.env.JIRA_CONTACT_CUSTOM_FIELD_ID || 'customfield_11341'
 const JIRA_EPIC_NAME_CUSTOM_FIELD_ID = process.env.JIRA_EPIC_NAME_CUSTOM_FIELD_ID || 'customfield_10941'
@@ -5490,6 +5494,120 @@ async function ensureTasksForUser(userId: string) {
     }
   }
 }
+
+app.get('/api/auth/google-client-id', (_req, res) => {
+  res.json({ clientId: GOOGLE_CLIENT_ID || null, registrationEnabled: ALLOW_REGISTRATION })
+})
+
+app.post('/api/auth/register', async (req, res) => {
+  if (!ALLOW_REGISTRATION) {
+    res.status(403).json({ error: 'REGISTRATION_DISABLED' })
+    return
+  }
+  const { email, password, displayName } = req.body as {
+    email?: string
+    password?: string
+    displayName?: string
+  }
+  if (!email || !password) {
+    res.status(400).json({ error: 'MISSING_FIELDS' })
+    return
+  }
+  const trimmedEmail = email.trim().toLowerCase()
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+    res.status(400).json({ error: 'INVALID_EMAIL' })
+    return
+  }
+  if (password.length < 6) {
+    res.status(400).json({ error: 'PASSWORD_TOO_SHORT' })
+    return
+  }
+  const existing = await prisma.user.findUnique({ where: { email: trimmedEmail } })
+  if (existing) {
+    res.status(409).json({ error: 'EMAIL_ALREADY_EXISTS' })
+    return
+  }
+  try {
+    const passwordHash = await bcrypt.hash(password, 10)
+    const user = await prisma.user.create({
+      data: {
+        email: trimmedEmail,
+        passwordHash,
+        provider: 'local',
+        displayName: displayName?.trim() || null,
+        role: 'VIEWER',
+      },
+    })
+    const token = signToken({ id: user.id, email: user.email, role: user.role }, JWT_SECRET)
+    setAuthCookie(res, token)
+    res.json({ id: user.id, email: user.email, displayName: user.displayName, role: user.role })
+  } catch {
+    res.status(500).json({ error: 'REGISTRATION_FAILED' })
+  }
+})
+
+app.post('/api/auth/google', async (req, res) => {
+  if (!googleOAuthClient || !GOOGLE_CLIENT_ID) {
+    res.status(400).json({ error: 'GOOGLE_AUTH_NOT_CONFIGURED' })
+    return
+  }
+  const { credential } = req.body as { credential?: string }
+  if (!credential) {
+    res.status(400).json({ error: 'MISSING_CREDENTIAL' })
+    return
+  }
+  try {
+    const ticket = await googleOAuthClient.verifyIdToken({
+      idToken: credential,
+      audience: GOOGLE_CLIENT_ID,
+    })
+    const payload = ticket.getPayload()
+    if (!payload || !payload.email) {
+      res.status(400).json({ error: 'INVALID_GOOGLE_TOKEN' })
+      return
+    }
+    const googleId = payload.sub
+    const googleEmail = payload.email.toLowerCase()
+    const googleName = payload.name || null
+
+    let user = await prisma.user.findFirst({
+      where: { OR: [{ googleId }, { email: googleEmail }] },
+    })
+
+    if (user) {
+      if (!user.googleId) {
+        user = await prisma.user.update({
+          where: { id: user.id },
+          data: { googleId, provider: user.provider === 'local' ? 'both' : user.provider, lastLoginAt: new Date() },
+        })
+      } else {
+        await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } })
+      }
+    } else {
+      if (!ALLOW_REGISTRATION) {
+        res.status(403).json({ error: 'REGISTRATION_DISABLED' })
+        return
+      }
+      const randomHash = await bcrypt.hash(crypto.randomBytes(32).toString('hex'), 10)
+      user = await prisma.user.create({
+        data: {
+          email: googleEmail,
+          passwordHash: randomHash,
+          provider: 'google',
+          googleId,
+          displayName: googleName,
+          role: 'VIEWER',
+        },
+      })
+    }
+
+    const token = signToken({ id: user.id, email: user.email, role: user.role }, JWT_SECRET)
+    setAuthCookie(res, token)
+    res.json({ id: user.id, email: user.email, displayName: user.displayName, role: user.role })
+  } catch {
+    res.status(401).json({ error: 'GOOGLE_AUTH_FAILED' })
+  }
+})
 
 app.post('/api/auth/logout', (_req, res) => {
   clearAuthCookie(res)

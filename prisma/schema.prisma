@@ -38,6 +38,8 @@ model User {
   displayName  String?
   externalId   String?       @unique
   passwordHash String
+  provider     String        @default("local")
+  googleId     String?       @unique
   role         Role          @default(VIEWER)
   imported     Boolean       @default(false)
   lastLoginAt  DateTime?

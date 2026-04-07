@@ -5,6 +5,8 @@ interface AuthContextValue {
   user: ApiUser | null
   loading: boolean
   login: (email: string, password: string) => Promise<void>
+  register: (email: string, password: string, displayName?: string) => Promise<void>
+  googleAuth: (credential: string) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -27,6 +29,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(me)
   }
 
+  const register = async (email: string, password: string, displayName?: string) => {
+    const me = await api.register(email, password, displayName)
+    setUser(me)
+  }
+
+  const googleAuth = async (credential: string) => {
+    const me = await api.googleAuth(credential)
+    setUser(me)
+  }
+
   const logout = async () => {
     try {
       await api.logout()
@@ -38,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null)
   }
 
-  const value = useMemo(() => ({ user, loading, login, logout }), [user, loading])
+  const value = useMemo(() => ({ user, loading, login, register, googleAuth, logout }), [user, loading])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
