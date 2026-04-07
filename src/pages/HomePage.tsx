@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { AppLayout } from '../components/layout/AppLayout'
 import { DotsInfinityLoader } from '../components/layout/DotsInfinityLoader'
@@ -664,18 +664,7 @@ export function HomePage() {
       titleAddonLeft={<DotsInfinityLoader />}
       showGlobalWaveBackground
     >
-      {!loading && !user && (
-        <Card>
-          <CardContent className="py-6 text-sm text-[var(--color-muted)]">
-            Bitte melden Sie sich an, um Ihre aktuellen Umfragen zu sehen.
-            <div className="mt-4">
-              <Button asChild>
-                <Link to="/login">Anmelden</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {!loading && !user && <Navigate to="/login" replace />}
 
       {user && (
         <main className="space-y-5">
