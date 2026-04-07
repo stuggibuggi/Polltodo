@@ -5670,6 +5670,41 @@ app.put('/api/admin/home-config', authMiddleware, requireRole(['ADMIN']), async 
   res.json(saved)
 })
 
+const EDITOR_MENU_KEYS = [
+  'questionnaires', 'groups', 'objects', 'roles', 'objectGroups',
+  'homeConfig', 'questionTypes', 'import', 'objectImports',
+  'results', 'resultsAnalytics', 'resultsKpis', 'jira', 'jiraConfig',
+] as const
+
+type EditorMenuConfig = Record<string, boolean>
+
+function normalizeEditorMenuConfig(raw: unknown): EditorMenuConfig {
+  const defaults: EditorMenuConfig = {}
+  for (const key of EDITOR_MENU_KEYS) defaults[key] = true
+  if (!raw || typeof raw !== 'object') return defaults
+  const input = raw as Record<string, unknown>
+  for (const key of EDITOR_MENU_KEYS) {
+    if (typeof input[key] === 'boolean') defaults[key] = input[key] as boolean
+  }
+  return defaults
+}
+
+app.get('/api/admin/editor-menu-config', authMiddleware, requireRole(['ADMIN', 'EDITOR']), async (_req, res) => {
+  const row = await prisma.adminConfig.findUnique({ where: { id: 'global' } })
+  res.json(normalizeEditorMenuConfig(row?.editorMenuConfig))
+})
+
+app.put('/api/admin/editor-menu-config', authMiddleware, requireRole(['ADMIN']), async (req, res) => {
+  const body = req.body as Record<string, unknown>
+  const config = normalizeEditorMenuConfig(body)
+  await prisma.adminConfig.upsert({
+    where: { id: 'global' },
+    create: { id: 'global', editorMenuConfig: config as any },
+    update: { editorMenuConfig: config as any },
+  })
+  res.json(config)
+})
+
 app.get('/api/admin/login-config', authMiddleware, requireRole(['ADMIN', 'EDITOR']), async (_req, res) => {
   const config = await getLoginPageConfig()
   res.json(config)

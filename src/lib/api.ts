@@ -616,6 +616,15 @@ export const api = {
   async getPublicLoginConfig(): Promise<LoginPageConfig> {
     return fetchJson(`${API_BASE}/public/login-config`)
   },
+  async getEditorMenuConfig(): Promise<Record<string, boolean>> {
+    return fetchJson(`${API_BASE}/admin/editor-menu-config`)
+  },
+  async updateEditorMenuConfig(config: Record<string, boolean>): Promise<Record<string, boolean>> {
+    return fetchJson(`${API_BASE}/admin/editor-menu-config`, {
+      method: 'PUT',
+      body: JSON.stringify(config),
+    })
+  },
   async getAdminLoginConfig(): Promise<LoginPageConfig> {
     return fetchJson(`${API_BASE}/admin/login-config`)
   },

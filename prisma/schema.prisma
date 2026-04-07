@@ -296,3 +296,8 @@ model ObjectSurveyTask {
 
   @@index([policyId, objectId])
 }
+
+model AdminConfig {
+  id               String @id @default("global")
+  editorMenuConfig Json   @default("{}")
+}

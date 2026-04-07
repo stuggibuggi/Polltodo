@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { Link, useLocation, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from '../../lib/auth'
 import { useTheme } from '../../lib/theme'
+import { api } from '../../lib/api'
 import { Button } from '../ui/button'
 import { DotsInfinityLoader } from '../layout/DotsInfinityLoader'
 
@@ -65,6 +66,42 @@ const HomeConfigPage = lazy(() =>
 const ExternalObjectImportsPage = lazy(() =>
   import('../../pages/admin/ExternalObjectImportsPage').then((m) => ({ default: m.ExternalObjectImportsPage }))
 )
+const EditorMenuConfigPage = lazy(() =>
+  import('../../pages/admin/EditorMenuConfigPage').then((m) => ({ default: m.EditorMenuConfigPage }))
+)
+
+type NavItem = {
+  key: string
+  label: string
+  path: string
+  matchExact?: boolean
+}
+
+const NAV_ITEMS: NavItem[] = [
+  { key: 'questionnaires', label: 'Fragebogen', path: '/admin/questionnaires' },
+  { key: 'groups', label: 'Benutzergruppen', path: '/admin/groups' },
+  { key: 'objects', label: 'Objekte', path: '/admin/objects' },
+  { key: 'roles', label: 'Rollen', path: '/admin/roles' },
+  { key: 'objectGroups', label: 'Objektgruppen', path: '/admin/object-groups' },
+  { key: 'homeConfig', label: 'Startseite', path: '/admin/home-config' },
+  { key: 'questionTypes', label: 'Fragetypen', path: '/admin/question-types' },
+  { key: 'import', label: 'Import', path: '/admin/import' },
+  { key: 'objectImports', label: 'Objekt-Import (SQL)', path: '/admin/object-imports' },
+  { key: 'results', label: 'Ergebnisse', path: '/admin/results', matchExact: true },
+  { key: 'resultsAnalytics', label: 'Grafische Auswertung', path: '/admin/results/analytics', matchExact: true },
+  { key: 'resultsKpis', label: 'KPI', path: '/admin/results/kpis', matchExact: true },
+  { key: 'jira', label: 'Jira', path: '/admin/jira', matchExact: true },
+  { key: 'jiraConfig', label: 'Jira-Konfig', path: '/admin/jira-config' },
+]
+
+function isActive(pathname: string, item: NavItem): boolean {
+  if (item.matchExact) return pathname === item.path
+  return pathname === item.path || pathname.startsWith(item.path + '/')
+}
+
+const activeCls = 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
+const inactiveCls = 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
+const pillBase = 'rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors'
 
 export function AdminLayout() {
   const location = useLocation()
@@ -72,6 +109,7 @@ export function AdminLayout() {
   const { theme, toggleTheme } = useTheme()
   const headerRef = useRef<HTMLElement | null>(null)
   const [stickyOffsetPx, setStickyOffsetPx] = useState(140)
+  const [editorMenu, setEditorMenu] = useState<Record<string, boolean> | null>(null)
 
   useEffect(() => {
     const node = headerRef.current
@@ -90,6 +128,11 @@ export function AdminLayout() {
     }
   }, [])
 
+  useEffect(() => {
+    if (!user || (user.role !== 'ADMIN' && user.role !== 'EDITOR')) return
+    api.getEditorMenuConfig().then(setEditorMenu).catch(() => setEditorMenu(null))
+  }, [user])
+
   if (loading) {
     return (
       <div className="flex min-h-[40vh] items-center justify-center">
@@ -106,6 +149,11 @@ export function AdminLayout() {
     return <Navigate to="/" replace />
   }
 
+  const isAdmin = user.role === 'ADMIN'
+  const canSee = (key: string) => isAdmin || !editorMenu || editorMenu[key] !== false
+
+  const blockedRoute = <Navigate to="/admin/questionnaires" replace />
+
   return (
     <div
       className="min-h-screen bg-[var(--color-background)]"
@@ -120,162 +168,34 @@ export function AdminLayout() {
             Administration
           </h1>
           <nav className="mt-3 flex flex-wrap items-center gap-2">
-            <Link
-              to="/admin/questionnaires"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname === '/admin/questionnaires' ||
-                location.pathname.startsWith('/admin/questionnaires/')
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Fragebogen
-            </Link>
-            <Link
-              to="/admin/groups"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname.startsWith('/admin/groups')
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Benutzergruppen
-            </Link>
-            {user.role === 'ADMIN' && (
+            {NAV_ITEMS.filter((item) => canSee(item.key)).map((item) => (
               <Link
-                to="/admin/users"
-                className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                  location.pathname.startsWith('/admin/users')
-                    ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                    : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-                }`}
+                key={item.key}
+                to={item.path}
+                className={`${pillBase} ${isActive(location.pathname, item) ? activeCls : inactiveCls}`}
               >
-                Benutzer
+                {item.label}
               </Link>
+            ))}
+            {isAdmin && (
+              <>
+                <Link
+                  to="/admin/users"
+                  className={`${pillBase} ${location.pathname.startsWith('/admin/users') ? activeCls : inactiveCls}`}
+                >
+                  Benutzer
+                </Link>
+                <Link
+                  to="/admin/editor-menu"
+                  className={`${pillBase} ${location.pathname.startsWith('/admin/editor-menu') ? activeCls : inactiveCls}`}
+                >
+                  Editor-Zugriff
+                </Link>
+              </>
             )}
             <Link
-              to="/admin/objects"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname.startsWith('/admin/objects')
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Objekte
-            </Link>
-            <Link
-              to="/admin/roles"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname.startsWith('/admin/roles')
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Rollen
-            </Link>
-            <Link
-              to="/admin/object-groups"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname.startsWith('/admin/object-groups')
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Objektgruppen
-            </Link>
-            <Link
-              to="/admin/home-config"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname.startsWith('/admin/home-config')
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Startseite
-            </Link>
-            <Link
-              to="/admin/question-types"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname.startsWith('/admin/question-types')
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Fragetypen
-            </Link>
-            <Link
-              to="/admin/import"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname.startsWith('/admin/import')
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Import
-            </Link>
-            <Link
-              to="/admin/object-imports"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname.startsWith('/admin/object-imports')
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Objekt-Import (SQL)
-            </Link>
-            <Link
-              to="/admin/results"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname === '/admin/results'
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Ergebnisse
-            </Link>
-            <Link
-              to="/admin/results/analytics"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname === '/admin/results/analytics'
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Grafische Auswertung
-            </Link>
-            <Link
-              to="/admin/results/kpis"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname === '/admin/results/kpis'
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              KPI
-            </Link>
-            <Link
-              to="/admin/jira"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname === '/admin/jira'
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Jira
-            </Link>
-            <Link
-              to="/admin/jira-config"
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                location.pathname === '/admin/jira-config'
-                  ? 'border-[var(--color-primary)] bg-[color-mix(in_oklab,var(--color-primary)_10%,white)] text-[var(--color-primary)]'
-                  : 'border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              Jira-Konfig
-            </Link>
-            <Link
               to="/"
-              className="rounded-full border border-[var(--color-border)] px-3 py-1.5 text-sm font-semibold text-[var(--color-muted)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+              className={`${pillBase} border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]`}
             >
               Umfrage oeffnen
             </Link>
@@ -297,30 +217,31 @@ export function AdminLayout() {
           }
         >
           <Routes>
-            <Route path="questionnaires/new" element={<QuestionnaireEditPage />} />
-            <Route path="questionnaires/:id/edit" element={<QuestionnaireEditPage />} />
-            <Route path="questionnaires" element={<QuestionnaireListPage />} />
-            <Route path="groups" element={<GroupListPage />} />
-            <Route path="groups/:id" element={<GroupDetailPage />} />
+            <Route path="questionnaires/new" element={canSee('questionnaires') ? <QuestionnaireEditPage /> : blockedRoute} />
+            <Route path="questionnaires/:id/edit" element={canSee('questionnaires') ? <QuestionnaireEditPage /> : blockedRoute} />
+            <Route path="questionnaires" element={canSee('questionnaires') ? <QuestionnaireListPage /> : blockedRoute} />
+            <Route path="groups" element={canSee('groups') ? <GroupListPage /> : blockedRoute} />
+            <Route path="groups/:id" element={canSee('groups') ? <GroupDetailPage /> : blockedRoute} />
             <Route
               path="users"
-              element={user.role === 'ADMIN' ? <UserListPage /> : <Navigate to="/admin/questionnaires" replace />}
+              element={isAdmin ? <UserListPage /> : blockedRoute}
             />
-            <Route path="objects" element={<ObjectListPage />} />
-            <Route path="objects/:id" element={<ObjectDetailPage />} />
-            <Route path="roles" element={<RoleListPage />} />
-            <Route path="object-groups" element={<ObjectGroupListPage />} />
-            <Route path="object-groups/:id" element={<ObjectGroupDetailPage />} />
-            <Route path="home-config" element={<HomeConfigPage />} />
-            <Route path="question-types" element={<QuestionTypeAdminPage />} />
-            <Route path="import" element={<ImportPage />} />
-            <Route path="object-imports" element={<ExternalObjectImportsPage />} />
-            <Route path="results" element={<ResultsPage />} />
-            <Route path="results/analytics" element={<ResultsAnalyticsPage />} />
-            <Route path="results/kpis" element={<ResultsKpiPage />} />
+            <Route path="objects" element={canSee('objects') ? <ObjectListPage /> : blockedRoute} />
+            <Route path="objects/:id" element={canSee('objects') ? <ObjectDetailPage /> : blockedRoute} />
+            <Route path="roles" element={canSee('roles') ? <RoleListPage /> : blockedRoute} />
+            <Route path="object-groups" element={canSee('objectGroups') ? <ObjectGroupListPage /> : blockedRoute} />
+            <Route path="object-groups/:id" element={canSee('objectGroups') ? <ObjectGroupDetailPage /> : blockedRoute} />
+            <Route path="home-config" element={canSee('homeConfig') ? <HomeConfigPage /> : blockedRoute} />
+            <Route path="question-types" element={canSee('questionTypes') ? <QuestionTypeAdminPage /> : blockedRoute} />
+            <Route path="import" element={canSee('import') ? <ImportPage /> : blockedRoute} />
+            <Route path="object-imports" element={canSee('objectImports') ? <ExternalObjectImportsPage /> : blockedRoute} />
+            <Route path="results" element={canSee('results') ? <ResultsPage /> : blockedRoute} />
+            <Route path="results/analytics" element={canSee('resultsAnalytics') ? <ResultsAnalyticsPage /> : blockedRoute} />
+            <Route path="results/kpis" element={canSee('resultsKpis') ? <ResultsKpiPage /> : blockedRoute} />
             <Route path="results/view" element={<ResultReadonlyPage />} />
-            <Route path="jira" element={<JiraPage />} />
-            <Route path="jira-config" element={<JiraConfigPage />} />
+            <Route path="jira" element={canSee('jira') ? <JiraPage /> : blockedRoute} />
+            <Route path="jira-config" element={canSee('jiraConfig') ? <JiraConfigPage /> : blockedRoute} />
+            <Route path="editor-menu" element={isAdmin ? <EditorMenuConfigPage /> : blockedRoute} />
             <Route index element={<Navigate to="questionnaires" replace />} />
           </Routes>
         </Suspense>
