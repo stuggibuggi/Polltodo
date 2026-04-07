@@ -37,3 +37,6 @@ Thumbs.db
 
 # Tesseract / OCR data
 *.traineddata
+
+# Archive files (animation prototypes etc.)
+animation/*.zip
