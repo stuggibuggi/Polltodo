@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Endbenutzer-Dokumentation</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="assets/manual.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#endbenutzer-handbuch">Endbenutzer-Handbuch</a>
+<ul>
+<li><a href="#inhaltsverzeichnis">Inhaltsverzeichnis</a></li>
+<li><a href="#rollen-und-rechte">Rollen und Rechte</a></li>
+<li><a href="#anmeldung">Anmeldung</a>
+<ul>
+<li><a href="#login-maske">Login-Maske</a></li>
+<li><a href="#ldapad">LDAP/AD</a></li>
+<li><a href="#konfigurierbare-anmeldeseite">Konfigurierbare Anmeldeseite</a></li>
+</ul></li>
+<li><a href="#startseite">Startseite</a>
+<ul>
+<li><a href="#offene-umfragen">Offene Umfragen</a></li>
+<li><a href="#statuslogik">Statuslogik</a></li>
+</ul></li>
+<li><a href="#umfragen-durchfuehren">Umfragen durchfuehren</a>
+<ul>
+<li><a href="#einstieg">Einstieg</a></li>
+<li><a href="#verhalten-waehrend-der-durchfuehrung">Verhalten waehrend der Durchfuehrung</a></li>
+<li><a href="#vorbefuellung">Vorbefuellung</a></li>
+<li><a href="#abschlussseite">Abschlussseite</a></li>
+</ul></li>
+<li><a href="#admin-bereich---alle-reiter">Admin-Bereich - alle Reiter</a>
+<ul>
+<li><a href="#fragebogen">Fragebogen</a></li>
+<li><a href="#benutzergruppen">Benutzergruppen</a></li>
+<li><a href="#benutzer-nur-admin">Benutzer (nur ADMIN)</a></li>
+<li><a href="#objekte">Objekte</a></li>
+<li><a href="#rollen">Rollen</a></li>
+<li><a href="#objektgruppen">Objektgruppen</a></li>
+<li><a href="#startseite-1">Startseite</a></li>
+<li><a href="#fragetypen">Fragetypen</a></li>
+<li><a href="#import">Import</a></li>
+<li><a href="#objekt-import-sql">Objekt-Import (SQL)</a></li>
+<li><a href="#ergebnisse">Ergebnisse</a></li>
+<li><a href="#jira">Jira</a></li>
+</ul></li>
+<li><a href="#fragetypen-1">Fragetypen</a></li>
+<li><a href="#abhaengigkeiten">Abhaengigkeiten</a>
+<ul>
+<li><a href="#logik">Logik</a></li>
+<li><a href="#unterstuetzte-operatoren">Unterstuetzte Operatoren</a></li>
+<li><a href="#objekt-meta-bedingung">Objekt-Meta-Bedingung</a></li>
+</ul></li>
+<li><a href="#import-und-export">Import und Export</a>
+<ul>
+<li><a href="#fragebogen-1">Fragebogen</a></li>
+<li><a href="#ergebnisse-1">Ergebnisse</a></li>
+<li><a href="#vorbefuellung-1">Vorbefuellung</a></li>
+<li><a href="#stammdaten">Stammdaten</a></li>
+</ul></li>
+<li><a href="#empfohlener-einfuehrungsablauf">Empfohlener Einfuehrungsablauf</a></li>
+<li><a href="#fehlerbehebung">Fehlerbehebung</a>
+<ul>
+<li><a href="#benutzer-sieht-keine-umfrage">Benutzer sieht keine Umfrage</a></li>
+<li><a href="#import-war-erfolgreich-aber-daten-fehlen">Import war “erfolgreich”, aber Daten fehlen</a></li>
+<li><a href="#objektliste-zeigt-nichts">Objektliste zeigt nichts</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="endbenutzer-handbuch">Endbenutzer-Handbuch</h1>
+<p>Version: 26.02.2026<br />
+Gueltig fuer: Umfragetool (Web)</p>
+<p>Dieses Handbuch beschreibt die Bedienung fuer <code>VIEWER</code>, <code>EDITOR</code> und <code>ADMIN</code>.</p>
+<figure>
+<img src="assets/overview-flow.svg" alt="Systemueberblick" /><figcaption aria-hidden="true">Systemueberblick</figcaption>
+</figure>
+<h2 id="inhaltsverzeichnis">Inhaltsverzeichnis</h2>
+<ol type="1">
+<li><a href="#rollen-und-rechte">Rollen und Rechte</a></li>
+<li><a href="#anmeldung">Anmeldung</a></li>
+<li><a href="#startseite">Startseite</a></li>
+<li><a href="#umfragen-durchfuehren">Umfragen durchfuehren</a></li>
+<li><a href="#admin-bereich---alle-reiter">Admin-Bereich - alle Reiter</a></li>
+<li><a href="#fragetypen">Fragetypen</a></li>
+<li><a href="#abhaengigkeiten">Abhaengigkeiten</a></li>
+<li><a href="#import-und-export">Import und Export</a></li>
+<li><a href="#empfohlener-einfuehrungsablauf">Empfohlener Einfuehrungsablauf</a></li>
+<li><a href="#fehlerbehebung">Fehlerbehebung</a></li>
+</ol>
+<h2 id="rollen-und-rechte">Rollen und Rechte</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Rolle</th>
+<th>Zweck</th>
+<th>Zugriff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>VIEWER</code></td>
+<td>Umfragen bearbeiten</td>
+<td>Startseite + zugewiesene Umfragen</td>
+</tr>
+<tr class="even">
+<td><code>EDITOR</code></td>
+<td>Fachliche Administration</td>
+<td>Admin-Bereich (ohne Reiter <code>Benutzer</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>ADMIN</code></td>
+<td>Volladministration</td>
+<td>Alle Reiter inkl. Benutzerverwaltung</td>
+</tr>
+</tbody>
+</table>
+<p>Hinweis: - <code>ADMIN</code> darf alles. - <code>EDITOR</code> sieht und bearbeitet Daten gemaess Sichtbarkeitsregeln (eigene Daten und Daten der eigenen Benutzergruppen).</p>
+<h2 id="anmeldung">Anmeldung</h2>
+<figure>
+<img src="assets/login-flow.svg" alt="Login-Ablauf" /><figcaption aria-hidden="true">Login-Ablauf</figcaption>
+</figure>
+<h3 id="login-maske">Login-Maske</h3>
+<ul>
+<li>URL: <code>/login</code></li>
+<li>Eingabe:
+<ul>
+<li>Benutzerkennung (<code>E-Mail</code> oder <code>UserID/Benutzername</code>)</li>
+<li>Passwort</li>
+</ul></li>
+<li>Nach erfolgreicher Anmeldung:
+<ul>
+<li>Weiterleitung auf konfigurierte Default-Seite oder</li>
+<li>auf die zuvor angeforderte Zielseite.</li>
+</ul></li>
+</ul>
+<h3 id="ldapad">LDAP/AD</h3>
+<ul>
+<li>LDAP-Login ist unterstuetzt.</li>
+<li>Bestehende lokale Rollen eines bereits vorhandenen Benutzers bleiben erhalten.</li>
+<li>Neue LDAP-Benutzer koennen automatisch als Benutzer erzeugt werden (typisch mit Rolle <code>VIEWER</code>).</li>
+</ul>
+<h3 id="konfigurierbare-anmeldeseite">Konfigurierbare Anmeldeseite</h3>
+<p>Im Reiter <code>Startseite</code> (Abschnitt Anmeldeseite): - Titel, Untertitel, Hinweistext - Label/Placeholder fuer Benutzer- und Passwortfeld - Text des Login-Buttons - Logo (Upload), Breite, Position</p>
+<h2 id="startseite">Startseite</h2>
+<p>Die Startseite ist konfigurierbar und kann enthalten: - Offene objektbezogene Umfragen - Globale Fragekataloge - Abgeschlossene Umfragen</p>
+<h3 id="offene-umfragen">Offene Umfragen</h3>
+<ul>
+<li>Gruppierung:
+<ul>
+<li>nach Objektgruppen oder</li>
+<li>nach Objekten</li>
+</ul></li>
+<li>Links Statistik:
+<ul>
+<li>Gesamt</li>
+<li>Offen</li>
+<li>Erledigt</li>
+</ul></li>
+<li>Filter:
+<ul>
+<li>Freitext oder feldbezogen (<code>titel:</code>, <code>objekt:</code>, <code>gruppe:</code>, <code>status:</code>)</li>
+</ul></li>
+<li>Pagination:
+<ul>
+<li>10 / 20 / 30 / 40 pro Seite</li>
+</ul></li>
+</ul>
+<h3 id="statuslogik">Statuslogik</h3>
+<ul>
+<li><code>OPEN</code>: Aufgabe kann gestartet/fortgesetzt werden.</li>
+<li><code>COMPLETED</code>: Aufgabe abgeschlossen.</li>
+<li>Bei einer objektbezogenen Umfrage reicht genau ein Abschluss: andere Rolleninhaber sehen sie danach als erledigt (inkl. Zeitstempel und Benutzer).</li>
+</ul>
+<h2 id="umfragen-durchfuehren">Umfragen durchfuehren</h2>
+<h3 id="einstieg">Einstieg</h3>
+<ul>
+<li>Objektbezogen: <code>/task/:id</code></li>
+<li>Global: <code>/link/questionnaire/:id</code></li>
+</ul>
+<h3 id="verhalten-waehrend-der-durchfuehrung">Verhalten waehrend der Durchfuehrung</h3>
+<ul>
+<li>Pflichtfragen muessen beantwortet werden.</li>
+<li>Wenn eine Antwort eine Begruendung erfordert, ist das Begruendungsfeld Pflicht.</li>
+<li>Nicht aktive Sektionen/Fragen (Bedingung nicht erfuellt) werden ausgeblendet.</li>
+<li>Die linke Navigation/Fragenuebersicht bleibt sichtbar und folgt der aktuellen Position.</li>
+</ul>
+<h3 id="vorbefuellung">Vorbefuellung</h3>
+<p>Bei objektbezogenen Umfragen kann Vorbefuellung verfuegbar sein: - aus letzter Durchfuehrung (wiederkehrende Umfragen) - aus importierten Prefill-Daten (Objekt + Fragebogen)</p>
+<p>Wichtig: - Nicht vorbefuellte Pflichtfragen muessen weiterhin beantwortet werden.</p>
+<h3 id="abschlussseite">Abschlussseite</h3>
+<p>Nach Absenden kann eine konfigurierte Abschlussseite angezeigt werden: - Ueberschrift - Formatierter Text (WYSIWYG-Inhalt)</p>
+<h2 id="admin-bereich---alle-reiter">Admin-Bereich - alle Reiter</h2>
+<figure>
+<img src="assets/admin-tabs.svg" alt="Admin-Reiter" /><figcaption aria-hidden="true">Admin-Reiter</figcaption>
+</figure>
+<h3 id="fragebogen">Fragebogen</h3>
+<p>Funktionen: - Neu anlegen, bearbeiten, duplizieren - JSON Export/Import - Loeschen mit Rueckfrage: - nur Fragebogen - Fragebogen inkl. Ergebnisse</p>
+<p>Im Editor: - Titel, Untertitel, Status, Gueltigkeitszeitraum - Mehrfachdurchfuehrung - Globaler Fragebogen ja/nein - Sektionen/Fragen: erstellen, verschieben, loeschen, Fragen klonen - WYSIWYG-Beschreibungen - Abhaengigkeiten (inkl. UND/ODER) - Grafische Abhaengigkeitssicht - Konfigurierbare Seite nach Absenden</p>
+<h3 id="benutzergruppen">Benutzergruppen</h3>
+<ul>
+<li>Benutzergruppen anlegen, bearbeiten, loeschen</li>
+<li>Benutzerzuordnung mit Suche, Filter und Pagination</li>
+<li>Hinzufuegen ueber UserID oder E-Mail auch ohne bestehenden Benutzerdatensatz</li>
+<li>Anzeige, ob Benutzer bereits angemeldet war</li>
+<li>Zuordnung von Objektgruppen</li>
+</ul>
+<h3 id="benutzer-nur-admin">Benutzer (nur ADMIN)</h3>
+<ul>
+<li>Benutzer anlegen, bearbeiten, loeschen</li>
+<li>Filter und Pagination</li>
+<li>Statistik (gesamt/importiert)</li>
+<li>Bulk-Loeschen ueber E-Mail-Filter (mit Vorschau)</li>
+<li>Uebersicht je Benutzer:
+<ul>
+<li>Objekt-Rollen-Zuordnungen</li>
+<li>Umfragezuordnungen ueber Benutzergruppen/Objekte/Objektgruppen</li>
+</ul></li>
+</ul>
+<h3 id="objekte">Objekte</h3>
+<ul>
+<li>Objektliste wird bei grosser Datenmenge erst nach aktivem Filter geladen</li>
+<li>Filter:
+<ul>
+<li>Text</li>
+<li>Typ</li>
+<li>Meta-JSON Key + Value (distinct)</li>
+</ul></li>
+<li>Aktionen:
+<ul>
+<li>Objekt erstellen/bearbeiten/loeschen</li>
+<li>Massenloeschen (z. B. “Alle vom Typ loeschen”)</li>
+</ul></li>
+<li>Uebersicht je Objekt:
+<ul>
+<li>zugeordnete Umfragen + Status</li>
+<li>Rollenzuordnungen pro Rolle (Anzahl Personen)</li>
+</ul></li>
+</ul>
+<p>Objektdetail: - Objekt-ID, Name, Typ, Beschreibung, Metadaten - Rollenzuordnungen - Objektgruppen - Umfrage-/Policy-Zuordnungen - Vorbefuellung exportieren/importieren (Excel)</p>
+<h3 id="rollen">Rollen</h3>
+<ul>
+<li>Rollen frei verwalten</li>
+<li>Nutzung/Anzahl je Rolle sichtbar</li>
+</ul>
+<h3 id="objektgruppen">Objektgruppen</h3>
+<ul>
+<li>Objektgruppen anlegen/bearbeiten/loeschen</li>
+<li>Objekte zuordnen:
+<ul>
+<li>manuell</li>
+<li>per Suche</li>
+<li>per Bulk-Auswahl</li>
+<li>per Regel-Engine</li>
+</ul></li>
+<li>Overrides pro Objekt</li>
+<li>Anzeige von Objektanzahl und Umfragezuordnung</li>
+</ul>
+<h3 id="startseite-1">Startseite</h3>
+<ul>
+<li>Startseiteninhalte je Benutzer konfigurierbar:
+<ul>
+<li>Ueberschriften, Beschreibungen</li>
+<li>Sichtbarkeit einzelner Bloecke</li>
+<li>Gruppierungslogik</li>
+<li>Default-Seite nach Login</li>
+</ul></li>
+<li>Login-Seite ebenfalls dort konfigurierbar</li>
+</ul>
+<h3 id="fragetypen">Fragetypen</h3>
+<ul>
+<li>Baukasten: Fragetypen aktivieren/deaktivieren</li>
+<li>Wirkung nur fuer neue Frageboegen</li>
+<li>Bestehende Frageboegen bleiben lauffaehig</li>
+<li>Nutzungsauswertung je Fragetyp:
+<ul>
+<li>Anzahl Frageboegen</li>
+<li>Anzahl Fragen</li>
+</ul></li>
+</ul>
+<h3 id="import">Import</h3>
+<ul>
+<li>Excel-Massenimport ueber Sheets:
+<ul>
+<li><code>users</code>, <code>objects</code>, <code>roles</code>, <code>role_assignments</code>, <code>policies</code>, <code>object_groups</code>, <code>group_memberships</code>, <code>group_policies</code></li>
+</ul></li>
+<li>Objekt-Schluessel ist <code>object_id</code></li>
+<li>Benutzer-Mapping in Zuordnungen ueber <code>user_email</code> oder <code>user_id</code></li>
+<li>Zusatz:
+<ul>
+<li>Wartung/Bereinigung</li>
+<li>Prefill-Massenimport (<code>prefill_bulk</code>)</li>
+</ul></li>
+</ul>
+<h3 id="objekt-import-sql">Objekt-Import (SQL)</h3>
+<ul>
+<li>Mehrere Importjobs</li>
+<li>Importtyp:
+<ul>
+<li>Objekte</li>
+<li>Personen + Rollen + Objektzuordnung</li>
+</ul></li>
+<li>SQL im Editor pflegbar</li>
+<li>Test/Dry-Run + Ausfuehrung</li>
+<li>Optionales Loeschen fehlender Datensaetze</li>
+<li>Laufhistorie je Job</li>
+</ul>
+<h3 id="ergebnisse">Ergebnisse</h3>
+<p>Funktionen: - Ergebnisliste je Fragebogen und Version - Einzel-Export: - Excel - PDF - Gesamt-Exports: - Gesamt-Excel (alle Ergebnisse) - Excel je Fragebogen ueber alle Versionen - Originaldesign (readonly) in separatem Fenster - Originaldesign als PDF - Ergebnis einzeln loeschbar - Jira-Ticket aus Ergebnis erzeugen</p>
+<h3 id="jira">Jira</h3>
+<ul>
+<li>Konfigurationsstatus sichtbar</li>
+<li>Jira Ticket erstellen aus Ergebnis</li>
+<li>Jira Debug:
+<ul>
+<li>Dry-Run</li>
+<li>Live-Test</li>
+</ul></li>
+<li>Ticket abrufen ueber Bereich + Ticketnummer</li>
+</ul>
+<h2 id="fragetypen-1">Fragetypen</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fragetyp</th>
+<th>Beschreibung</th>
+<th>Wichtige Optionen</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>info</code></td>
+<td>Hinweistext ohne Antwortfeld</td>
+<td>kein Pflichtfeld, keine Antwort</td>
+</tr>
+<tr class="even">
+<td><code>text</code></td>
+<td>Einzeiliger Text</td>
+<td>Placeholder</td>
+</tr>
+<tr class="odd">
+<td><code>multiline</code></td>
+<td>Mehrzeiliger Text</td>
+<td>WYSIWYG-Beschreibung</td>
+</tr>
+<tr class="even">
+<td><code>boolean</code></td>
+<td>Ja/Nein</td>
+<td>optional begruendungspflichtig ueber Antwortlogik</td>
+</tr>
+<tr class="odd">
+<td><code>single</code></td>
+<td>Einzelauswahl</td>
+<td>individuelle Antworten erlauben</td>
+</tr>
+<tr class="even">
+<td><code>multi</code></td>
+<td>Mehrfachauswahl</td>
+<td>individuelle Antworten erlauben</td>
+</tr>
+<tr class="odd">
+<td><code>date_time</code></td>
+<td>Datum / Datum+Uhrzeit</td>
+<td>Modus waehlbar</td>
+</tr>
+<tr class="even">
+<td><code>percentage</code></td>
+<td>Prozentangabe</td>
+<td>Eingabe, Slider oder Auswahl</td>
+</tr>
+<tr class="odd">
+<td><code>likert</code></td>
+<td>Skala</td>
+<td>Stufen + Min/Max-Label</td>
+</tr>
+<tr class="even">
+<td><code>ranking</code></td>
+<td>Rangfolge</td>
+<td>Position-basierte Bedingungen</td>
+</tr>
+<tr class="odd">
+<td><code>object_picker</code></td>
+<td>Objektwahl</td>
+<td>Typ-/Metafilter, Objektgruppen, Mehrfachmodus, Zusatzfelder</td>
+</tr>
+</tbody>
+</table>
+<h2 id="abhaengigkeiten">Abhaengigkeiten</h2>
+<figure>
+<img src="assets/dependency-types.svg" alt="Abhaengigkeiten" /><figcaption aria-hidden="true">Abhaengigkeiten</figcaption>
+</figure>
+<p>Bedingungen koennen auf Frage- oder Sektionsebene definiert werden.</p>
+<h3 id="logik">Logik</h3>
+<ul>
+<li><code>UND</code> (<code>ALL</code>): alle Bedingungen muessen zutreffen</li>
+<li><code>ODER</code> (<code>ANY</code>): mindestens eine Bedingung muss zutreffen</li>
+</ul>
+<h3 id="unterstuetzte-operatoren">Unterstuetzte Operatoren</h3>
+<ul>
+<li>Text/Werte:
+<ul>
+<li><code>eq</code>, <code>contains</code>, <code>not_contains</code>, <code>starts_with</code>, <code>ends_with</code></li>
+</ul></li>
+<li>Numerisch:
+<ul>
+<li><code>gt</code>, <code>gte</code>, <code>lt</code>, <code>lte</code></li>
+</ul></li>
+<li>Datum:
+<ul>
+<li><code>date_is_future</code>, <code>date_is_past</code>, <code>date_equals</code>, <code>date_within_future_days</code></li>
+</ul></li>
+<li>Ranking:
+<ul>
+<li><code>ranking_contains</code>, <code>ranking_position_eq</code>, <code>ranking_position_better_than</code></li>
+</ul></li>
+<li>Objektkontext:
+<ul>
+<li><code>object_type_eq</code></li>
+<li><code>object_meta_eq</code></li>
+</ul></li>
+</ul>
+<h3 id="objekt-meta-bedingung">Objekt-Meta-Bedingung</h3>
+<p>Bei <code>object_meta_eq</code>: - <code>Meta-Key</code> wird ueber Dropdown gewaehlt - <code>Meta-Wert</code> kommt als distinct Dropdown zum gewaehlten Key - kein Freitext</p>
+<p>Hinweis: - Bei globalen Umfragen ohne Objekt sind objektbezogene Bedingungen nicht erfuellt.</p>
+<h2 id="import-und-export">Import und Export</h2>
+<figure>
+<img src="assets/import-export.svg" alt="Import-Export" /><figcaption aria-hidden="true">Import-Export</figcaption>
+</figure>
+<h3 id="fragebogen-1">Fragebogen</h3>
+<ul>
+<li>JSON Export/Import im Reiter <code>Fragebogen</code></li>
+<li>Versionierung bei Aenderungen an laufenden Katalogen</li>
+</ul>
+<h3 id="ergebnisse-1">Ergebnisse</h3>
+<ul>
+<li>Einzel-Excel / Einzel-PDF</li>
+<li>Gesamt-Excel</li>
+<li>Fragebogen-Excel ueber alle Versionen</li>
+</ul>
+<h3 id="vorbefuellung-1">Vorbefuellung</h3>
+<ul>
+<li>Objektbezogene Excel-Vorlagen exportieren</li>
+<li>Ausgefuellte Vorbefuellungen wieder importieren</li>
+<li>Massenimport ueber <code>prefill_bulk</code> moeglich</li>
+</ul>
+<h3 id="stammdaten">Stammdaten</h3>
+<ul>
+<li>Excel-Massenimport</li>
+<li>SQL-basierter externer Objektimport</li>
+</ul>
+<h2 id="empfohlener-einfuehrungsablauf">Empfohlener Einfuehrungsablauf</h2>
+<ol type="1">
+<li>Rollen anlegen</li>
+<li>Benutzergruppen anlegen</li>
+<li>Benutzer importieren/zuordnen</li>
+<li>Objekte importieren (inkl. Metadaten)</li>
+<li>Objektgruppen definieren (Regel-Engine + manuell)</li>
+<li>Rollen am Objekt zuordnen</li>
+<li>Frageboegen erstellen/veroeffentlichen</li>
+<li>Policies an Objekt/Objektgruppe binden</li>
+<li>Optional Vorbefuellung importieren</li>
+<li>Ergebnisse und Jira-Prozess nutzen</li>
+</ol>
+<h2 id="fehlerbehebung">Fehlerbehebung</h2>
+<h3 id="benutzer-sieht-keine-umfrage">Benutzer sieht keine Umfrage</h3>
+<ul>
+<li>Rollen-/Gruppenzuordnung fehlt</li>
+<li>Policy ist nicht aktiv (Zeitfenster/Frequenz)</li>
+<li>Bedingung auf Objekt/Antwort trifft nicht zu</li>
+</ul>
+<h3 id="import-war-erfolgreich-aber-daten-fehlen">Import war “erfolgreich”, aber Daten fehlen</h3>
+<ul>
+<li>Falsches Sheet/Spaltenformat</li>
+<li>Mapping-Spalten unvollstaendig</li>
+<li><code>object_id</code> nicht vorhanden oder nicht eindeutig</li>
+</ul>
+<h3 id="objektliste-zeigt-nichts">Objektliste zeigt nichts</h3>
+<ul>
+<li>Kein aktiver Filter gesetzt (gewolltes Verhalten bei grosser Datenmenge)</li>
+</ul>
+<hr />
+<p>Stand: 26.02.2026<br />
+Quelle: aktueller Funktionsstand im Projekt.</p>
+</body>
+</html>

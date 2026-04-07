@@ -1,0 +1,296 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum Frequency {
+  ONCE
+  MONTHLY
+  QUARTERLY
+  YEARLY
+  CUSTOM_DAYS
+}
+
+enum TaskStatus {
+  OPEN
+  DONE
+  CLOSED_BY_OTHER
+}
+
+enum QuestionnaireStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  displayName  String?
+  externalId   String?       @unique
+  passwordHash String
+  role         Role          @default(VIEWER)
+  imported     Boolean       @default(false)
+  lastLoginAt  DateTime?
+  createdByUserId String?
+  importedByUserId String?
+  createdAt    DateTime      @default(now())
+  memberships  GroupMember[]
+  submissions  Submission[]
+  startedTasks ObjectSurveyTask[] @relation("TaskStartedBy")
+  completedTasks ObjectSurveyTask[] @relation("TaskCompletedBy")
+  objectRoleAssignments ObjectRoleAssignment[]
+}
+
+model Group {
+  id             String              @id @default(uuid())
+  name           String              @unique
+  description    String?
+  createdByUserId String?
+  importedByUserId String?
+  createdAt      DateTime            @default(now())
+  members        GroupMember[]
+  questionnaires GroupQuestionnaire[]
+  objectRoleAssignments ObjectRoleAssignment[]
+  objectGroups   GroupObjectGroup[]
+}
+
+model GroupMember {
+  id        String   @id @default(uuid())
+  userId    String
+  groupId   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  group     Group    @relation(fields: [groupId], references: [id])
+
+  @@unique([userId, groupId])
+}
+
+model Questionnaire {
+  id          String              @id @default(uuid())
+  title       String
+  subtitle    String?
+  sections    Json
+  version     Int                 @default(1)
+  allowMultipleSubmissions Boolean @default(false)
+  globalForAllUsers Boolean       @default(false)
+  createdByUserId String?
+  adminAccessMode String          @default("OWNER_AND_GROUP")
+  adminGroupIds Json              @default("[]")
+  status      QuestionnaireStatus @default(DRAFT)
+  homeTileDescriptionHtml String?
+  homeTileColor String            @default("default")
+  homeTileAttributes Json         @default("[]")
+  activeFrom  DateTime?
+  activeTo    DateTime?
+  deletedAt   DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  groups      GroupQuestionnaire[]
+  submissions Submission[]
+  objectPolicies ObjectSurveyPolicy[]
+  objectTasks ObjectSurveyTask[]
+  objectGroupPolicies ObjectGroupPolicy[]
+  objectOverrides ObjectPolicyOverride[]
+}
+
+model GroupQuestionnaire {
+  id              String        @id @default(uuid())
+  groupId         String
+  questionnaireId String
+  frequency       Frequency     @default(ONCE)
+  intervalDays    Int?
+  activeFrom      DateTime?
+  activeTo        DateTime?
+  createdAt       DateTime      @default(now())
+  group           Group         @relation(fields: [groupId], references: [id])
+  questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
+
+  @@unique([groupId, questionnaireId])
+}
+
+model Submission {
+  id              String        @id @default(uuid())
+  questionnaireId String
+  questionnaireVersion Int      @default(1)
+  questionnaireSnapshot Json?
+  userId          String?
+  answers         Json
+  displayAnswers  Json?
+  submittedAt     DateTime      @default(now())
+  questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
+  user            User?         @relation(fields: [userId], references: [id])
+  objectTask      ObjectSurveyTask? @relation("TaskSubmission")
+}
+
+model ObjectEntity {
+  id        String        @id @default(uuid())
+  externalId String?      @unique
+  name      String
+  type      String?
+  description String?
+  createdByUserId String?
+  importedByUserId String?
+  adminGroupIds Json      @default("[]")
+  metadata  Json?
+  createdAt DateTime      @default(now())
+  policies  ObjectSurveyPolicy[]
+  tasks     ObjectSurveyTask[]
+  assignments ObjectRoleAssignment[]
+  groupMemberships ObjectGroupMembership[]
+  overrides ObjectPolicyOverride[]
+}
+
+model RoleDefinition {
+  id        String        @id @default(uuid())
+  name      String        @unique
+  createdByUserId String?
+  importedByUserId String?
+  adminGroupIds Json      @default("[]")
+  createdAt DateTime      @default(now())
+  assignments ObjectRoleAssignment[]
+}
+
+model ObjectRoleAssignment {
+  id        String        @id @default(uuid())
+  objectId  String
+  roleId    String
+  userId    String?
+  groupId   String?
+  createdAt DateTime      @default(now())
+  object    ObjectEntity  @relation(fields: [objectId], references: [id])
+  role      RoleDefinition @relation(fields: [roleId], references: [id])
+  user      User?         @relation(fields: [userId], references: [id])
+  group     Group?        @relation(fields: [groupId], references: [id])
+
+  @@index([objectId])
+  @@index([roleId])
+}
+
+model ObjectSurveyPolicy {
+  id              String        @id @default(uuid())
+  objectId        String
+  questionnaireId String
+  frequency       Frequency
+  intervalDays    Int?
+  roleIds         Json
+  activeFrom      DateTime?
+  activeTo        DateTime?
+  createdByGroupId String?
+  createdByObjectGroupId String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  object          ObjectEntity  @relation(fields: [objectId], references: [id])
+  questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
+  tasks           ObjectSurveyTask[]
+
+  @@index([createdByGroupId])
+  @@index([createdByObjectGroupId])
+}
+
+model ObjectGroup {
+  id        String        @id @default(uuid())
+  name      String        @unique
+  createdByUserId String?
+  importedByUserId String?
+  adminGroupIds Json      @default("[]")
+  createdAt DateTime      @default(now())
+  memberships ObjectGroupMembership[]
+  groupPolicies ObjectGroupPolicy[]
+  rules ObjectGroupRule[]
+  userGroups GroupObjectGroup[]
+}
+
+model GroupObjectGroup {
+  id            String      @id @default(uuid())
+  groupId       String
+  objectGroupId String
+  createdAt     DateTime    @default(now())
+  group         Group       @relation(fields: [groupId], references: [id])
+  objectGroup   ObjectGroup @relation(fields: [objectGroupId], references: [id])
+
+  @@unique([groupId, objectGroupId])
+}
+
+model ObjectGroupMembership {
+  id        String       @id @default(uuid())
+  objectId  String
+  groupId   String
+  createdAt DateTime     @default(now())
+  object    ObjectEntity @relation(fields: [objectId], references: [id])
+  group     ObjectGroup  @relation(fields: [groupId], references: [id])
+
+  @@unique([objectId, groupId])
+}
+
+model ObjectGroupRule {
+  id        String      @id @default(uuid())
+  groupId   String
+  field     String
+  operator  String
+  value     String
+  createdAt DateTime    @default(now())
+  group     ObjectGroup @relation(fields: [groupId], references: [id])
+}
+
+model ObjectGroupPolicy {
+  id              String        @id @default(uuid())
+  groupId         String
+  questionnaireId String
+  frequency       Frequency
+  intervalDays    Int?
+  roleNames       Json
+  activeFrom      DateTime?
+  activeTo        DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  group           ObjectGroup   @relation(fields: [groupId], references: [id])
+  questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
+}
+
+model ObjectPolicyOverride {
+  id              String        @id @default(uuid())
+  objectId        String
+  questionnaireId String
+  frequency       Frequency
+  intervalDays    Int?
+  roleIds         Json
+  activeFrom      DateTime?
+  activeTo        DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  object          ObjectEntity  @relation(fields: [objectId], references: [id])
+  questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
+}
+
+model ObjectSurveyTask {
+  id              String        @id @default(uuid())
+  policyId        String
+  objectId        String
+  questionnaireId String
+  dueAt           DateTime
+  status          TaskStatus    @default(OPEN)
+  startedAt       DateTime?
+  startedByUserId String?
+  completedAt     DateTime?
+  completedByUserId String?
+  submissionId    String?       @unique
+  createdAt       DateTime      @default(now())
+  policy          ObjectSurveyPolicy @relation(fields: [policyId], references: [id])
+  object          ObjectEntity  @relation(fields: [objectId], references: [id])
+  questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
+  startedBy       User?         @relation("TaskStartedBy", fields: [startedByUserId], references: [id])
+  completedBy     User?         @relation("TaskCompletedBy", fields: [completedByUserId], references: [id])
+  submission      Submission?   @relation("TaskSubmission", fields: [submissionId], references: [id])
+
+  @@index([policyId, objectId])
+}

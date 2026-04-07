@@ -1,0 +1,2 @@
+ALTER TABLE "ObjectEntity" ADD COLUMN IF NOT EXISTS "createdByUserId" TEXT;
+ALTER TABLE "ObjectEntity" ADD COLUMN IF NOT EXISTS "adminGroupIds" JSONB NOT NULL DEFAULT '[]'::jsonb;

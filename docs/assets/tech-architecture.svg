@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="520" viewBox="0 0 1400 520">
+  <defs>
+    <style>
+      .t { font-family: Segoe UI, Arial, sans-serif; fill: #0f172a; }
+      .h { font-size: 26px; font-weight: 700; }
+      .b { font-size: 16px; font-weight: 600; }
+      .s { font-size: 14px; }
+    </style>
+  </defs>
+  <rect width="1400" height="520" fill="#f8fafc"/>
+  <text x="34" y="42" class="t h">Technische Architektur</text>
+
+  <rect x="40" y="90" rx="10" width="280" height="300" fill="#fff" stroke="#cbd5e1"/>
+  <text x="60" y="120" class="t b">Browser / Client</text>
+  <text x="60" y="148" class="t s">React 19 + Vite 7</text>
+  <text x="60" y="172" class="t s">TypeScript + Router</text>
+  <text x="60" y="196" class="t s">UI (Radix + Tailwind)</text>
+  <text x="60" y="220" class="t s">Cookie-basierte Auth</text>
+  <text x="60" y="244" class="t s">API-Aufrufe nach /api</text>
+
+  <rect x="540" y="90" rx="10" width="330" height="300" fill="#fff" stroke="#cbd5e1"/>
+  <text x="560" y="120" class="t b">Backend API</text>
+  <text x="560" y="148" class="t s">Node.js + Express + TypeScript</text>
+  <text x="560" y="172" class="t s">Auth: JWT im HttpOnly Cookie</text>
+  <text x="560" y="196" class="t s">Business-Logik: Aufgaben, Policies, Importe</text>
+  <text x="560" y="220" class="t s">Integrationen: LDAP / Jira / MSSQL</text>
+  <text x="560" y="244" class="t s">Datenzugriff via Prisma Client</text>
+
+  <rect x="1060" y="90" rx="10" width="300" height="300" fill="#fff" stroke="#cbd5e1"/>
+  <text x="1080" y="120" class="t b">Daten- und Fremdsysteme</text>
+  <text x="1080" y="148" class="t s">PostgreSQL (Prisma Schema)</text>
+  <text x="1080" y="172" class="t s">MS SQL (Objekt-Importjobs)</text>
+  <text x="1080" y="196" class="t s">LDAP/AD (optionale Anmeldung)</text>
+  <text x="1080" y="220" class="t s">Jira REST API</text>
+
+  <line x1="320" y1="240" x2="540" y2="240" stroke="#334155" stroke-width="2"/>
+  <polygon points="540,240 527,234 527,246" fill="#334155"/>
+  <line x1="870" y1="240" x2="1060" y2="240" stroke="#334155" stroke-width="2"/>
+  <polygon points="1060,240 1047,234 1047,246" fill="#334155"/>
+</svg>

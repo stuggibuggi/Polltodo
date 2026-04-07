@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Technische Dokumentation</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="assets/tech-manual.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Technische Dokumentation</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#technische-dokumentation">Technische Dokumentation</a>
+<ul>
+<li><a href="#inhaltsverzeichnis">Inhaltsverzeichnis</a></li>
+<li><a href="#systemueberblick">Systemueberblick</a>
+<ul>
+<li><a href="#scope">Scope</a></li>
+<li><a href="#laufzeitfluesse">Laufzeitfluesse</a></li>
+</ul></li>
+<li><a href="#technologie-stack">Technologie-Stack</a></li>
+<li><a href="#repository--und-laufzeitstruktur">Repository- und Laufzeitstruktur</a>
+<ul>
+<li><a href="#entrypoints">Entrypoints</a></li>
+</ul></li>
+<li><a href="#konfiguration-parameterdeck">Konfiguration (Parameterdeck)</a></li>
+<li><a href="#start-stopp-monitoring">Start, Stopp, Monitoring</a>
+<ul>
+<li><a href="#entwicklung">Entwicklung</a></li>
+<li><a href="#produktion-ohne-pm2">Produktion (ohne PM2)</a></li>
+<li><a href="#pm2-betrieb">PM2 Betrieb</a></li>
+<li><a href="#healthcheck">Healthcheck</a></li>
+</ul></li>
+<li><a href="#deployment-windows-pm2">Deployment (Windows + PM2)</a>
+<ul>
+<li><a href="#standard-deployment">Standard-Deployment</a></li>
+<li><a href="#offline-szenario">Offline-Szenario</a></li>
+<li><a href="#netzwerkfirewall">Netzwerk/Firewall</a></li>
+<li><a href="#update-strategie-bluegreen-light">Update-Strategie (Blue/Green-light)</a></li>
+</ul></li>
+<li><a href="#datenbank-und-prisma">Datenbank und Prisma</a>
+<ul>
+<li><a href="#kernmodelle-vereinfacht">Kernmodelle (vereinfacht)</a></li>
+<li><a href="#prisma-befehle">Prisma-Befehle</a></li>
+<li><a href="#migrationsstrategie">Migrationsstrategie</a></li>
+<li><a href="#typische-prisma-fehler">Typische Prisma-Fehler</a></li>
+</ul></li>
+<li><a href="#api-referenz">API-Referenz</a>
+<ul>
+<li><a href="#auth-modell">Auth-Modell</a></li>
+<li><a href="#standard-fehlercodes">Standard-Fehlercodes</a></li>
+<li><a href="#api-nutzung-beispiele">API-Nutzung (Beispiele)</a></li>
+<li><a href="#api-inventar-vollstaendig">API-Inventar (vollstaendig)</a></li>
+<li><a href="#api-domains-wichtigste-request-response-strukturen">API-Domains: wichtigste Request-/Response-Strukturen</a></li>
+</ul></li>
+<li><a href="#integrationen">Integrationen</a>
+<ul>
+<li><a href="#ldap">LDAP</a></li>
+<li><a href="#jira-1">Jira</a></li>
+<li><a href="#mssql-objektimport">MSSQL Objektimport</a></li>
+</ul></li>
+<li><a href="#sicherheit-und-betrieb">Sicherheit und Betrieb</a></li>
+<li><a href="#troubleshooting-playbook">Troubleshooting-Playbook</a></li>
+<li><a href="#anhang">Anhang</a>
+<ul>
+<li><a href="#npm-kommandoreferenz">NPM Kommandoreferenz</a></li>
+<li><a href="#rollenmatrix-api">Rollenmatrix (API)</a></li>
+<li><a href="#api-index-kompakt">API-Index kompakt</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="technische-dokumentation">Technische Dokumentation</h1>
+<p>Version: 26.02.2026<br />
+Zielsystem: Windows Server + PM2 + PostgreSQL</p>
+<p>Diese Dokumentation beschreibt den technischen Betrieb, Deployment, Datenbankbetrieb, Integrationen und die API des Umfragetools.</p>
+<figure>
+<img src="assets/tech-architecture.svg" alt="Technische Architektur" /><figcaption aria-hidden="true">Technische Architektur</figcaption>
+</figure>
+<h2 id="inhaltsverzeichnis">Inhaltsverzeichnis</h2>
+<ol type="1">
+<li><a href="#systemueberblick">Systemueberblick</a></li>
+<li><a href="#technologie-stack">Technologie-Stack</a></li>
+<li><a href="#repository--und-laufzeitstruktur">Repository- und Laufzeitstruktur</a></li>
+<li><a href="#konfiguration-parameterdeck">Konfiguration (Parameterdeck)</a></li>
+<li><a href="#start-stopp-monitoring">Start, Stopp, Monitoring</a></li>
+<li><a href="#deployment-windows--pm2">Deployment (Windows + PM2)</a></li>
+<li><a href="#datenbank-und-prisma">Datenbank und Prisma</a></li>
+<li><a href="#api-referenz">API-Referenz</a></li>
+<li><a href="#integrationen">Integrationen</a></li>
+<li><a href="#sicherheit-und-betrieb">Sicherheit und Betrieb</a></li>
+<li><a href="#troubleshooting-playbook">Troubleshooting-Playbook</a></li>
+<li><a href="#anhang">Anhang</a></li>
+</ol>
+<h2 id="systemueberblick">Systemueberblick</h2>
+<h3 id="scope">Scope</h3>
+<ul>
+<li>Frontend (React/Vite) fuer Benutzer- und Adminoberflaeche</li>
+<li>Backend (Express) fuer Auth, Fachlogik, Import/Export, Integrationen</li>
+<li>PostgreSQL als Primärdatenbank via Prisma</li>
+<li>Externe Integrationen: LDAP (AD), Jira, MSSQL-Import</li>
+</ul>
+<h3 id="laufzeitfluesse">Laufzeitfluesse</h3>
+<ul>
+<li>Browser -&gt; <code>/:5173</code> (Client) -&gt; <code>/api/*</code> (Backend Proxy im Dev, direkter Aufruf im Prod)</li>
+<li>Backend -&gt; PostgreSQL (Prisma Client)</li>
+<li>Backend -&gt; LDAP/Jira/MSSQL (bei aktivierter Funktion)</li>
+</ul>
+<h2 id="technologie-stack">Technologie-Stack</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Bereich</th>
+<th>Technologien</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sprache</td>
+<td>TypeScript, SQL</td>
+</tr>
+<tr class="even">
+<td>Frontend</td>
+<td>React 19, React Router 7, Vite 7, Tailwind CSS 4, Radix UI</td>
+</tr>
+<tr class="odd">
+<td>Backend</td>
+<td>Node.js, Express 4, cookie-parser, cors, jsonwebtoken, bcryptjs</td>
+</tr>
+<tr class="even">
+<td>Datenbank</td>
+<td>PostgreSQL, Prisma 5.20.0</td>
+</tr>
+<tr class="odd">
+<td>Import/Export</td>
+<td>xlsx, jsPDF</td>
+</tr>
+<tr class="even">
+<td>Integrationen</td>
+<td>ldapts, mssql, Jira REST</td>
+</tr>
+<tr class="odd">
+<td>Prozessmanager</td>
+<td>PM2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="repository--und-laufzeitstruktur">Repository- und Laufzeitstruktur</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Pfad</th>
+<th>Zweck</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>src/</code></td>
+<td>Frontend-App (Pages, Komponenten, API-Client)</td>
+</tr>
+<tr class="even">
+<td><code>server/src/</code></td>
+<td>Backend API, Auth, LDAP, Cron, Wartungsskripte</td>
+</tr>
+<tr class="odd">
+<td><code>prisma/schema.prisma</code></td>
+<td>Datenmodell (Prisma)</td>
+</tr>
+<tr class="even">
+<td><code>dist/</code></td>
+<td>Build-Artefakte Frontend</td>
+</tr>
+<tr class="odd">
+<td><code>dist-server/</code></td>
+<td>Build-Artefakte Backend</td>
+</tr>
+<tr class="even">
+<td><code>ecosystem.config.cjs</code></td>
+<td>PM2-Konfiguration</td>
+</tr>
+<tr class="odd">
+<td><code>.env</code> / <code>.env.example</code></td>
+<td>Laufzeitkonfiguration</td>
+</tr>
+<tr class="even">
+<td><code>docs/</code></td>
+<td>Endbenutzer- und Technikdokumentation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="entrypoints">Entrypoints</h3>
+<ul>
+<li>Frontend Dev: <code>vite</code> (<code>npm run dev</code>)</li>
+<li>Backend Dev: <code>tsx server/src/index.ts</code> (<code>npm run dev:server</code>)</li>
+<li>Frontend Prod: <code>vite preview --host 0.0.0.0 --port 5173</code> (<code>npm run start:client</code>)</li>
+<li>Backend Prod: <code>node dist-server/index.js</code> (<code>npm run start:server</code>)</li>
+</ul>
+<h2 id="konfiguration-parameterdeck">Konfiguration (Parameterdeck)</h2>
+<blockquote>
+<p>Es sind nur Platzhalterwerte zu verwenden. Keine produktiven Secrets in Doku, Git oder Tickets.</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Typ</th>
+<th>Pflicht</th>
+<th>Default</th>
+<th>Wirkung / Hinweis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>DATABASE_URL</code></td>
+<td>URL</td>
+<td>Ja</td>
+<td>-</td>
+<td>PostgreSQL Verbindung fuer Prisma</td>
+</tr>
+<tr class="even">
+<td><code>JWT_SECRET</code></td>
+<td>String</td>
+<td>Ja</td>
+<td><code>change-me</code>/<code>dev-secret</code></td>
+<td>Signatur fuer Auth-Cookie Token</td>
+</tr>
+<tr class="odd">
+<td><code>CORS_ORIGIN</code></td>
+<td>URL</td>
+<td>Ja</td>
+<td><code>http://localhost:5173</code></td>
+<td>Erlaubter Browser-Origin fuer API</td>
+</tr>
+<tr class="even">
+<td><code>PORT</code></td>
+<td>Number</td>
+<td>Nein</td>
+<td><code>4000</code></td>
+<td>Backend-Port</td>
+</tr>
+<tr class="odd">
+<td><code>AUTH_MODE</code></td>
+<td>Enum</td>
+<td>Nein</td>
+<td><code>local</code> oder <code>both</code> in Prod</td>
+<td>Loginmodus (<code>local</code>, <code>ldap</code>, <code>both</code>)</td>
+</tr>
+<tr class="even">
+<td><code>ADMIN_EMAIL</code></td>
+<td>String</td>
+<td>Nein</td>
+<td><code>admin@example.com</code></td>
+<td>fuer <code>seed</code>/<code>create-admin</code></td>
+</tr>
+<tr class="odd">
+<td><code>ADMIN_PASSWORD</code></td>
+<td>String</td>
+<td>Nein</td>
+<td><code>admin123</code></td>
+<td>fuer <code>seed</code>/<code>create-admin</code></td>
+</tr>
+<tr class="even">
+<td><code>LDAP_ENABLED</code></td>
+<td>Bool</td>
+<td>Nein</td>
+<td><code>false</code></td>
+<td>LDAP aktiv/inaktiv</td>
+</tr>
+<tr class="odd">
+<td><code>LDAP_URL</code></td>
+<td>URL</td>
+<td>Bei LDAP</td>
+<td>-</td>
+<td>LDAP Server URL</td>
+</tr>
+<tr class="even">
+<td><code>LDAP_DOMAIN</code></td>
+<td>String</td>
+<td>Optional</td>
+<td>-</td>
+<td>Domain fuer Bind (DOMAIN\user)</td>
+</tr>
+<tr class="odd">
+<td><code>LDAP_SEARCH_BASE</code></td>
+<td>String</td>
+<td>Bei LDAP</td>
+<td>-</td>
+<td>LDAP Base DN</td>
+</tr>
+<tr class="even">
+<td><code>LDAP_SEARCH_FILTER</code></td>
+<td>String</td>
+<td>Nein</td>
+<td><code>(sAMAccountName={{username}})</code></td>
+<td>Suchfilter mit Platzhalter</td>
+</tr>
+<tr class="odd">
+<td><code>LDAP_EMAIL_ATTR</code></td>
+<td>String</td>
+<td>Nein</td>
+<td><code>mail</code></td>
+<td>E-Mail Attributname</td>
+</tr>
+<tr class="even">
+<td><code>LDAP_NAME_ATTR</code></td>
+<td>String</td>
+<td>Nein</td>
+<td><code>cn</code></td>
+<td>Anzeigename Attributname</td>
+</tr>
+<tr class="odd">
+<td><code>LDAP_ALLOW_UPN</code></td>
+<td>Bool</td>
+<td>Nein</td>
+<td><code>false</code></td>
+<td>UPN Login erlaubt</td>
+</tr>
+<tr class="even">
+<td><code>LDAP_GROUP_ATTR</code></td>
+<td>String</td>
+<td>Nein</td>
+<td><code>memberOf</code></td>
+<td>Gruppenattribut</td>
+</tr>
+<tr class="odd">
+<td><code>LDAP_ROLE_MAP</code></td>
+<td>String</td>
+<td>Optional</td>
+<td>-</td>
+<td>Mapping AD-Gruppe -&gt; Rolle</td>
+</tr>
+<tr class="even">
+<td><code>LDAP_DEBUG</code></td>
+<td>Bool</td>
+<td>Nein</td>
+<td><code>false</code></td>
+<td>Erweiterte LDAP Fehlermeldungen</td>
+</tr>
+<tr class="odd">
+<td><code>LDAP_TIMEOUT_MS</code></td>
+<td>Number</td>
+<td>Nein</td>
+<td><code>8000</code></td>
+<td>LDAP Timeout</td>
+</tr>
+<tr class="even">
+<td><code>JIRA_ISSUE_CREATE_URL</code></td>
+<td>URL</td>
+<td>Fuer Jira</td>
+<td>-</td>
+<td>Endpoint Ticket erstellen</td>
+</tr>
+<tr class="odd">
+<td><code>JIRA_ISSUE_BROWSE_URL</code></td>
+<td>URL</td>
+<td>Optional</td>
+<td>-</td>
+<td>Linkbasis Ticket anzeigen</td>
+</tr>
+<tr class="even">
+<td><code>JIRA_USER_SEARCH_URL</code></td>
+<td>URL</td>
+<td>Optional</td>
+<td>-</td>
+<td>Endpoint Benutzer suchen</td>
+</tr>
+<tr class="odd">
+<td><code>JIRA_BASIC_AUTH</code></td>
+<td>String</td>
+<td>Fuer Jira</td>
+<td>-</td>
+<td>Basic Auth Headerwert</td>
+</tr>
+<tr class="even">
+<td><code>JIRA_DEFAULT_PROJECT_KEY</code></td>
+<td>String</td>
+<td>Optional</td>
+<td><code>PIT</code></td>
+<td>Standard Projekt-Key</td>
+</tr>
+<tr class="odd">
+<td><code>JIRA_DEFAULT_ISSUE_TYPE</code></td>
+<td>String</td>
+<td>Optional</td>
+<td><code>Task</code></td>
+<td>Standard Issue Type</td>
+</tr>
+<tr class="even">
+<td><code>JIRA_CONTACT_CUSTOM_FIELD_ID</code></td>
+<td>String</td>
+<td>Optional</td>
+<td><code>customfield_11341</code></td>
+<td>Ansprechpartner-Feld</td>
+</tr>
+<tr class="odd">
+<td><code>JIRA_EPIC_NAME_CUSTOM_FIELD_ID</code></td>
+<td>String</td>
+<td>Optional</td>
+<td><code>customfield_10941</code></td>
+<td>Epic Name Feld</td>
+</tr>
+<tr class="even">
+<td><code>JIRA_DEFAULT_COMPONENTS</code></td>
+<td>CSV</td>
+<td>Optional</td>
+<td>-</td>
+<td>Jira Komponenten</td>
+</tr>
+<tr class="odd">
+<td><code>EXTERNAL_IMPORT_SCHEDULER_ENABLED</code></td>
+<td>Bool</td>
+<td>Nein</td>
+<td><code>true</code></td>
+<td>Scheduler fuer SQL-Importjobs</td>
+</tr>
+<tr class="even">
+<td><code>EXTERNAL_IMPORT_SCHEDULER_TICK_MS</code></td>
+<td>Number</td>
+<td>Nein</td>
+<td><code>60000</code></td>
+<td>Scheduler Intervall</td>
+</tr>
+<tr class="odd">
+<td><code>EXTERNAL_IMPORT_PRISMA_TIMEOUT_MS</code></td>
+<td>Number</td>
+<td>Nein</td>
+<td><code>120000</code></td>
+<td>Prisma Timeout fuer grosse Importe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="start-stopp-monitoring">Start, Stopp, Monitoring</h2>
+<figure>
+<img src="assets/runtime-ops.svg" alt="Runtime-Betrieb" /><figcaption aria-hidden="true">Runtime-Betrieb</figcaption>
+</figure>
+<h3 id="entwicklung">Entwicklung</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run dev</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run dev:server</span></code></pre></div>
+<h3 id="produktion-ohne-pm2">Produktion (ohne PM2)</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run build:prod</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run start:server</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run start:client</span></code></pre></div>
+<h3 id="pm2-betrieb">PM2 Betrieb</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pm2</span> start ecosystem.config.cjs</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pm2</span> status</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pm2</span> logs umfrage-server</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">pm2</span> logs umfrage-client</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pm2</span> restart umfrage-server</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">pm2</span> restart umfrage-client</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="ex">pm2</span> stop umfrage-server</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pm2</span> stop umfrage-client</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="ex">pm2</span> save</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="ex">pm2</span> startup</span></code></pre></div>
+<h3 id="healthcheck">Healthcheck</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> http://localhost:4000/api/health</span></code></pre></div>
+<p>PowerShell:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Invoke-RestMethod</span> <span class="op">-</span>Method Get <span class="op">-</span>Uri <span class="st">&quot;http://localhost:4000/api/health&quot;</span></span></code></pre></div>
+<h2 id="deployment-windows-pm2">Deployment (Windows + PM2)</h2>
+<figure>
+<img src="assets/deployment-flow.svg" alt="Deployment-Flow" /><figcaption aria-hidden="true">Deployment-Flow</figcaption>
+</figure>
+<h3 id="standard-deployment">Standard-Deployment</h3>
+<ol type="1">
+<li>Build im Quellsystem:
+<ul>
+<li><code>npm run build:prod</code></li>
+</ul></li>
+<li>Projekt auf Zielserver kopieren (inkl. <code>dist</code>, <code>dist-server</code>, <code>prisma</code>, <code>node_modules</code> bei Offline-Betrieb).</li>
+<li><code>.env</code> auf Zielserver setzen.</li>
+<li>Prisma Deployment:
+<ul>
+<li><code>npm run prisma:migrate:deploy</code></li>
+<li><code>npm run prisma:generate</code></li>
+</ul></li>
+<li>PM2 starten:
+<ul>
+<li><code>pm2 start ecosystem.config.cjs</code></li>
+<li><code>pm2 save</code></li>
+</ul></li>
+<li>Healthcheck + Login pruefen.</li>
+</ol>
+<h3 id="offline-szenario">Offline-Szenario</h3>
+<ul>
+<li>Ohne Internet muss <code>node_modules</code> mitgeliefert werden oder ein internes Paket-Repository vorhanden sein.</li>
+<li>Wenn <code>npm install</code> offline nicht moeglich ist:
+<ul>
+<li>Build und <code>prisma generate</code> vorab in Online-Umgebung</li>
+<li>Artefakte plus lauffaehige <code>node_modules</code> transportieren</li>
+</ul></li>
+</ul>
+<h3 id="netzwerkfirewall">Netzwerk/Firewall</h3>
+<ul>
+<li>Typische Ports:
+<ul>
+<li><code>4000</code> Backend</li>
+<li><code>5173</code> Frontend Preview</li>
+</ul></li>
+<li>In Produktionsnetzen meist Reverse Proxy empfohlen (TLS, Domainrouting).</li>
+</ul>
+<h3 id="update-strategie-bluegreen-light">Update-Strategie (Blue/Green-light)</h3>
+<ul>
+<li>Neues Release in separatem Verzeichnis deployen</li>
+<li>DB-Migrationen vor Umschalten anwenden</li>
+<li>PM2 auf neues Working Directory umschalten</li>
+<li>Healthcheck pruefen</li>
+<li>Altes Release kurzfristig als Fallback behalten</li>
+</ul>
+<h2 id="datenbank-und-prisma">Datenbank und Prisma</h2>
+<figure>
+<img src="assets/prisma-lifecycle.svg" alt="Prisma Lifecycle" /><figcaption aria-hidden="true">Prisma Lifecycle</figcaption>
+</figure>
+<h3 id="kernmodelle-vereinfacht">Kernmodelle (vereinfacht)</h3>
+<ul>
+<li>Benutzer/Gruppen: <code>User</code>, <code>Group</code>, <code>GroupMember</code></li>
+<li>Frageboegen: <code>Questionnaire</code>, <code>Submission</code>, <code>GroupQuestionnaire</code></li>
+<li>Objektwelt: <code>ObjectEntity</code>, <code>RoleDefinition</code>, <code>ObjectRoleAssignment</code></li>
+<li>Aufgaben/Policies: <code>ObjectSurveyPolicy</code>, <code>ObjectSurveyTask</code>, <code>ObjectGroupPolicy</code>, <code>ObjectPolicyOverride</code></li>
+<li>Objektgruppen/Regeln: <code>ObjectGroup</code>, <code>ObjectGroupMembership</code>, <code>ObjectGroupRule</code>, <code>GroupObjectGroup</code></li>
+</ul>
+<h3 id="prisma-befehle">Prisma-Befehle</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run prisma:generate</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run prisma:migrate</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run prisma:migrate:deploy</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run seed</span></code></pre></div>
+<h3 id="migrationsstrategie">Migrationsstrategie</h3>
+<ul>
+<li>Development:
+<ul>
+<li><code>prisma migrate dev</code> (generiert und wendet neue Migrationen an)</li>
+</ul></li>
+<li>Produktion:
+<ul>
+<li><code>prisma migrate deploy</code> (nur vorhandene Migrationen)</li>
+<li>kein <code>migrate dev</code> auf Prod</li>
+</ul></li>
+</ul>
+<h3 id="typische-prisma-fehler">Typische Prisma-Fehler</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>Bedeutung</th>
+<th>Typische Ursache</th>
+<th>Loesung</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>P1001</code></td>
+<td>DB nicht erreichbar</td>
+<td>Host/Port/Firewall/Service down</td>
+<td>DB Service, URL, Netzwerk pruefen</td>
+</tr>
+<tr class="even">
+<td><code>P2002</code></td>
+<td>Unique Constraint</td>
+<td>Dublette bei unique Feld</td>
+<td>Daten bereinigen, Upsert/Skip-Logik</td>
+</tr>
+<tr class="odd">
+<td><code>P2003</code></td>
+<td>Foreign Key Fehler</td>
+<td>Referenzierte Daten fehlen</td>
+<td>Loesch-/Anlage-Reihenfolge korrigieren</td>
+</tr>
+<tr class="even">
+<td><code>P2022</code></td>
+<td>Spalte fehlt</td>
+<td>Migrationen nicht ausgerollt</td>
+<td><code>prisma migrate deploy</code> + generate</td>
+</tr>
+</tbody>
+</table>
+<h2 id="api-referenz">API-Referenz</h2>
+<figure>
+<img src="assets/api-auth-flow.svg" alt="API Auth-Flow" /><figcaption aria-hidden="true">API Auth-Flow</figcaption>
+</figure>
+<h3 id="auth-modell">Auth-Modell</h3>
+<ul>
+<li>Login setzt HttpOnly Cookie <code>umfrage_auth</code> (JWT, 7 Tage)</li>
+<li>Middleware:
+<ul>
+<li><code>requireAuth</code> -&gt; 401 bei fehlender/ungueltiger Auth</li>
+<li><code>requireRole([...])</code> -&gt; 403 bei fehlender Rolle</li>
+</ul></li>
+</ul>
+<h3 id="standard-fehlercodes">Standard-Fehlercodes</h3>
+<ul>
+<li><code>400 BAD_REQUEST</code> - Eingabefehler / Validierung</li>
+<li><code>401 UNAUTHORIZED</code> - nicht angemeldet</li>
+<li><code>403 FORBIDDEN</code> - Rolle/Berechtigung fehlt</li>
+<li><code>404 NOT_FOUND</code> - Ressource nicht gefunden</li>
+<li><code>409 CONFLICT</code> - Konflikt (z. B. Duplikate)</li>
+<li><code>500 INTERNAL_SERVER_ERROR</code> - unerwarteter Backendfehler</li>
+</ul>
+<h3 id="api-nutzung-beispiele">API-Nutzung (Beispiele)</h3>
+<h4 id="login">Login</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST http://localhost:4000/api/auth/login <span class="dt">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-H</span> <span class="st">&quot;Content-Type: application/json&quot;</span> <span class="dt">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span> <span class="st">&#39;{&quot;email&quot;:&quot;admin@example.com&quot;,&quot;password&quot;:&quot;&lt;PASSWORD&gt;&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-c</span> cookie.txt</span></code></pre></div>
+<p>PowerShell:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">$body</span> <span class="op">=</span> @<span class="op">{</span> email <span class="op">=</span> <span class="st">&quot;admin@example.com&quot;</span><span class="op">;</span> password <span class="op">=</span> <span class="st">&quot;&lt;PASSWORD&gt;&quot;</span> <span class="op">}</span> <span class="op">|</span> <span class="fu">ConvertTo-Json</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Invoke-RestMethod</span> <span class="op">-</span>Method Post <span class="op">-</span>Uri <span class="st">&quot;http://localhost:4000/api/auth/login&quot;</span> <span class="op">-</span>ContentType <span class="st">&quot;application/json&quot;</span> <span class="op">-</span>Body <span class="va">$body</span> <span class="op">-</span>SessionVariable sess</span></code></pre></div>
+<h4 id="authentifizierter-request">Authentifizierter Request</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> http://localhost:4000/api/me/object-tasks <span class="at">-b</span> cookie.txt</span></code></pre></div>
+<p>PowerShell:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Invoke-RestMethod</span> <span class="op">-</span>Method Get <span class="op">-</span>Uri <span class="st">&quot;http://localhost:4000/api/me/object-tasks&quot;</span> <span class="op">-</span>WebSession <span class="va">$sess</span></span></code></pre></div>
+<h3 id="api-inventar-vollstaendig">API-Inventar (vollstaendig)</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Methode</th>
+<th>Pfad</th>
+<th>Auth/Rolle</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/health</code></td>
+<td><code>PUBLIC</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/auth/login</code></td>
+<td><code>PUBLIC</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/auth/logout</code></td>
+<td><code>PUBLIC</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/auth/me</code></td>
+<td><code>PUBLIC</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/me/home-config</code></td>
+<td><code>AUTHENTICATED</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/public/login-config</code></td>
+<td><code>PUBLIC</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/admin/home-config</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/admin/home-config</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/admin/login-config</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/admin/login-config</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/users</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/users/:id/submissions</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/users/:id/assignment-overview</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/users/:id/reset</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/users</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/users/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>DELETE</code></td>
+<td><code>/api/users/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/users/bulk-delete</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/users/bulk-delete/preview</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/groups</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/groups/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/groups</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>PUT</code></td>
+<td><code>/api/groups/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>DELETE</code></td>
+<td><code>/api/groups/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/groups/:id/members</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/groups/:id/members</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/groups/:id/questionnaires</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/groups/:id/object-groups</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>PUT</code></td>
+<td><code>/api/groups/:id/questionnaires</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/groups/:id/object-groups</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/objects</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/objects/with-groups</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/admin/object-picker/filter-options</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/objects</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>PUT</code></td>
+<td><code>/api/objects/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>DELETE</code></td>
+<td><code>/api/objects/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/objects/:id/prefills/:questionnaireId</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/prefills/bulk</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>PUT</code></td>
+<td><code>/api/objects/:id/prefills/:questionnaireId</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/objects/bulk-delete</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/roles</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/objects/:id/groups</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/object-groups</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/object-groups/summary</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/object-groups</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/object-groups/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>DELETE</code></td>
+<td><code>/api/object-groups/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/object-groups/:id/members</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/object-groups/:id/rules</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/object-groups/:id/rule-config</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>PUT</code></td>
+<td><code>/api/object-groups/:id/rule-config</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/object-groups/:id/rules</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>DELETE</code></td>
+<td><code>/api/object-group-rules/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/object-groups/:id/apply-rules</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>PUT</code></td>
+<td><code>/api/object-groups/:id/members</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/object-groups/:id/policies</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/object-groups/:id/summary</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/object-groups/:id/policies</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>DELETE</code></td>
+<td><code>/api/object-group-policies/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/objects/:id/overrides</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/objects/:id/overrides</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>DELETE</code></td>
+<td><code>/api/object-overrides/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/roles</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/roles/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>DELETE</code></td>
+<td><code>/api/roles/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/objects/:id/assignments</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>PUT</code></td>
+<td><code>/api/objects/:id/assignments</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/objects/:id/policies</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/objects/:id/summary</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/objects/:id/tasks</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/objects/:id/policies</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/policies/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>DELETE</code></td>
+<td><code>/api/policies/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/object-import-definitions</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/object-import-definitions/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/object-import-definitions/:id/runs</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/object-import-definitions</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/object-import-definitions/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>DELETE</code></td>
+<td><code>/api/object-import-definitions/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/object-import-definitions/:id/test</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/object-import-definitions/:id/run</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/import/bulk</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/admin/question-types</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/admin/question-types</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/questionnaires</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/questionnaires/:id</code></td>
+<td><code>AUTHENTICATED</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/questionnaires</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>PUT</code></td>
+<td><code>/api/questionnaires/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>DELETE</code></td>
+<td><code>/api/questionnaires/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/me/questionnaires</code></td>
+<td><code>AUTHENTICATED</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/me/submissions</code></td>
+<td><code>AUTHENTICATED</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/me/object-picker-options</code></td>
+<td><code>AUTHENTICATED</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/me/object-tasks</code></td>
+<td><code>AUTHENTICATED</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/object-tasks/:id</code></td>
+<td><code>AUTHENTICATED</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/object-tasks/:id/prefill</code></td>
+<td><code>AUTHENTICATED</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/object-tasks/:id/submit</code></td>
+<td><code>AUTHENTICATED</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/questionnaires/:id/submissions</code></td>
+<td><code>AUTHENTICATED</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/questionnaires/:id/submissions</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="odd">
+<td><code>DELETE</code></td>
+<td><code>/api/submissions/:id</code></td>
+<td><code>ADMIN,EDITOR</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/integrations/jira/meta</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/integrations/jira/debug/create</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/api/integrations/jira/issues/:projectKey/:issueNumber</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/api/integrations/jira/users</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="even">
+<td><code>POST</code></td>
+<td><code>/api/integrations/jira/issues</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/api/admin/maintenance/override-cleanup</code></td>
+<td><code>ADMIN</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="api-domains-wichtigste-request-response-strukturen">API-Domains: wichtigste Request-/Response-Strukturen</h3>
+<h4 id="auth">Auth</h4>
+<ul>
+<li><code>POST /api/auth/login</code>
+<ul>
+<li>Body: <code>{ email, password }</code></li>
+<li>Response: Benutzerobjekt + Auth-Cookie</li>
+</ul></li>
+<li><code>POST /api/auth/logout</code>
+<ul>
+<li>Response: <code>{ ok: true }</code> (Cookie wird geloescht)</li>
+</ul></li>
+<li><code>GET /api/auth/me</code>
+<ul>
+<li>Response: aktueller Benutzer oder <code>401</code></li>
+</ul></li>
+</ul>
+<h4 id="benutzer-gruppen-rollen">Benutzer / Gruppen / Rollen</h4>
+<ul>
+<li>Benutzer anlegen/aktualisieren: <code>email</code>, <code>password</code> (optional bei Update), <code>role</code>, <code>displayName</code></li>
+<li>Gruppen: <code>name</code>, <code>description</code>, Mitgliederlisten</li>
+<li>Rollen: Name + CRUD</li>
+</ul>
+<h4 id="objekte-policies-tasks">Objekte / Policies / Tasks</h4>
+<ul>
+<li>Objekt: <code>externalId</code>, <code>name</code>, <code>type</code>, <code>description</code>, <code>metadata</code></li>
+<li>Policy: <code>questionnaireId</code>, <code>frequency</code>, <code>intervalDays</code>, <code>activeFrom</code>, <code>activeTo</code>, Rollenbezug</li>
+<li>Task Submit: Antwortenobjekt je Fragen-ID</li>
+</ul>
+<h4 id="frageboegen-ergebnisse">Frageboegen / Ergebnisse</h4>
+<ul>
+<li>Fragebogen: Titel, Sektionen (JSON), Status, Version, Sichtbarkeitskontext</li>
+<li>Submission: <code>answers</code>, Snapshot/Version, <code>submittedAt</code></li>
+</ul>
+<h4 id="sql-importjobs">SQL-Importjobs</h4>
+<ul>
+<li>Definition: Verbindung (<code>sqlHost</code>, <code>sqlPort</code>, <code>sqlDatabase</code>, <code>sqlUsername</code>, <code>sqlPassword</code>, TLS-Optionen), SQL-Query, Mapping</li>
+<li>Test/Run: Dry-Run und produktiver Lauf, Laufhistorie via <code>/runs</code></li>
+</ul>
+<h4 id="jira">Jira</h4>
+<ul>
+<li>Meta/Status, User-Suche, Ticket erstellen, Debug-Create, Ticket abruf</li>
+</ul>
+<h2 id="integrationen">Integrationen</h2>
+<h3 id="ldap">LDAP</h3>
+<ul>
+<li>Implementierung: <code>server/src/ldap.ts</code></li>
+<li>Ablauf:
+<ol type="1">
+<li>Bind mit Benutzerkennung/Passwort</li>
+<li>Suche im LDAP-Tree</li>
+<li>Mapping von Mail/Name/Gruppen</li>
+<li>Rollenmapping via <code>LDAP_ROLE_MAP</code></li>
+</ol></li>
+</ul>
+<h3 id="jira-1">Jira</h3>
+<ul>
+<li>Konfiguration ueber <code>JIRA_*</code> Variablen</li>
+<li>REST-Funktionen:
+<ul>
+<li>Ticket erstellen</li>
+<li>Debug create (dry/live)</li>
+<li>User-Suche</li>
+<li>Ticket abruf</li>
+</ul></li>
+</ul>
+<h3 id="mssql-objektimport">MSSQL Objektimport</h3>
+<ul>
+<li>Endpunkte unter <code>/api/object-import-definitions*</code></li>
+<li>SQL Query und Mapping per Admin konfigurierbar</li>
+<li>Scheduler via <code>EXTERNAL_IMPORT_SCHEDULER_*</code></li>
+<li>Prisma-Timeout fuer lange Writes via <code>EXTERNAL_IMPORT_PRISMA_TIMEOUT_MS</code></li>
+</ul>
+<h2 id="sicherheit-und-betrieb">Sicherheit und Betrieb</h2>
+<ul>
+<li>Auth Token nur in HttpOnly Cookie</li>
+<li>CORS restriktiv auf <code>CORS_ORIGIN</code></li>
+<li>Secrets nur in <code>.env</code>, nicht im Code/Repo</li>
+<li>Fuer Production TLS ueber Reverse Proxy erzwingen</li>
+<li>Logging:
+<ul>
+<li><code>pm2 logs</code></li>
+<li>gezielte Debug-Flags (<code>LDAP_DEBUG</code>)</li>
+</ul></li>
+</ul>
+<h2 id="troubleshooting-playbook">Troubleshooting-Playbook</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Problem</th>
+<th>Diagnose</th>
+<th>Loesung</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Server startet nicht</td>
+<td><code>pm2 logs umfrage-server</code></td>
+<td>fehlende Module, Pfade, <code>.env</code> pruefen</td>
+</tr>
+<tr class="even">
+<td><code>tsx</code> nicht gefunden</td>
+<td>Dev-only Tool fehlt</td>
+<td><code>npm install</code> bzw. Build auf Quellsystem</td>
+</tr>
+<tr class="odd">
+<td><code>P1001</code> DB nicht erreichbar</td>
+<td><code>DATABASE_URL</code>, Port, Service</td>
+<td>PostgreSQL starten, Firewall, URL korrigieren</td>
+</tr>
+<tr class="even">
+<td><code>P2022</code> Spalte fehlt</td>
+<td>Migrationstand veraltet</td>
+<td><code>npm run prisma:migrate:deploy</code></td>
+</tr>
+<tr class="odd">
+<td>Foreign key Fehler (<code>P2003</code>)</td>
+<td>Loesch-/Importreihenfolge falsch</td>
+<td>Referenzdaten zuerst anlegen oder Cascading cleanup</td>
+</tr>
+<tr class="even">
+<td>Unique Fehler (<code>P2002</code>)</td>
+<td>Dublette bei unique Feld</td>
+<td>Upsert/Skip-Strategie, Daten bereinigen</td>
+</tr>
+<tr class="odd">
+<td>Frontend laden faellt aus</td>
+<td>Browser-Konsole + PM2 logs</td>
+<td>Build neu erstellen, Cache leeren, statische Dateien pruefen</td>
+</tr>
+<tr class="even">
+<td>Jira Ticket wird nicht erstellt</td>
+<td><code>/api/integrations/jira/meta</code> + Debug-Endpunkt</td>
+<td>Auth/URL/Field IDs pruefen</td>
+</tr>
+<tr class="odd">
+<td>LDAP Login faellt aus</td>
+<td><code>LDAP_DEBUG=true</code> + Netzwerk</td>
+<td>URL/BaseDN/Filter/Bind pruefen</td>
+</tr>
+</tbody>
+</table>
+<h2 id="anhang">Anhang</h2>
+<h3 id="npm-kommandoreferenz">NPM Kommandoreferenz</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Kommando</th>
+<th>Zweck</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>npm run dev</code></td>
+<td>Frontend Devserver</td>
+</tr>
+<tr class="even">
+<td><code>npm run dev:server</code></td>
+<td>Backend Devserver</td>
+</tr>
+<tr class="odd">
+<td><code>npm run build:client</code></td>
+<td>Frontend Build</td>
+</tr>
+<tr class="even">
+<td><code>npm run build:server</code></td>
+<td>Backend Build</td>
+</tr>
+<tr class="odd">
+<td><code>npm run build:prod</code></td>
+<td>Prisma generate + Client + Server Build</td>
+</tr>
+<tr class="even">
+<td><code>npm run start:client</code></td>
+<td>Frontend Preview</td>
+</tr>
+<tr class="odd">
+<td><code>npm run start:server</code></td>
+<td>Backend Start aus <code>dist-server</code></td>
+</tr>
+<tr class="even">
+<td><code>npm run prisma:generate</code></td>
+<td>Prisma Client erzeugen</td>
+</tr>
+<tr class="odd">
+<td><code>npm run prisma:migrate</code></td>
+<td>Migration dev</td>
+</tr>
+<tr class="even">
+<td><code>npm run prisma:migrate:deploy</code></td>
+<td>Migration prod</td>
+</tr>
+<tr class="odd">
+<td><code>npm run seed</code></td>
+<td>Seed Daten</td>
+</tr>
+<tr class="even">
+<td><code>npm run create-admin</code></td>
+<td>Admin anlegen</td>
+</tr>
+<tr class="odd">
+<td><code>npm run cron:tasks</code></td>
+<td>Task-Cron Lauf</td>
+</tr>
+<tr class="even">
+<td><code>npm run maintenance:override-cleanup:dry</code></td>
+<td>Dry-run Bereinigung</td>
+</tr>
+<tr class="odd">
+<td><code>npm run maintenance:override-cleanup</code></td>
+<td>Bereinigung anwenden</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rollenmatrix-api">Rollenmatrix (API)</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Rolle</th>
+<th>Zugriff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PUBLIC</code></td>
+<td>health, login/logout, public login-config</td>
+</tr>
+<tr class="even">
+<td><code>AUTHENTICATED</code></td>
+<td>me-Endpunkte, Objekt-Tasks, Submission senden</td>
+</tr>
+<tr class="odd">
+<td><code>EDITOR</code></td>
+<td>Admin-Fachfunktionen (ohne Admin-only Endpunkte)</td>
+</tr>
+<tr class="even">
+<td><code>ADMIN</code></td>
+<td>Vollzugriff inkl. Benutzerverwaltung, Jira-API, Wartung</td>
+</tr>
+</tbody>
+</table>
+<h3 id="api-index-kompakt">API-Index kompakt</h3>
+<ul>
+<li>Alle Routen sind im Abschnitt „API-Inventar (vollstaendig)“ gelistet.</li>
+<li>Source of Truth: <code>server/src/index.ts</code></li>
+</ul>
+<hr />
+<p>Stand: 26.02.2026</p>
+</body>
+</html>

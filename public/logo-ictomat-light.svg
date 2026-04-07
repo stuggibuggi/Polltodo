@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">ICTOMAT Logo Light</title>
+  <desc id="desc">Witziges ICTOMAT Logo fuer helles Layout mit Tomato-Roboter-Maskottchen.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7fbff"/>
+      <stop offset="100%" stop-color="#eef5ff"/>
+    </linearGradient>
+    <linearGradient id="tomato" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff6d6d"/>
+      <stop offset="100%" stop-color="#ef466a"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#20be83"/>
+      <stop offset="100%" stop-color="#129d6a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="360" rx="36" fill="url(#bg)"/>
+
+  <g transform="translate(70 52)">
+    <rect x="0" y="0" width="256" height="256" rx="38" fill="#ffffff" stroke="#bfd2ee" stroke-width="4"/>
+    <circle cx="128" cy="145" r="76" fill="url(#tomato)" stroke="#e9496d" stroke-width="4"/>
+    <path d="M90 84c18-20 56-20 74 0-20 6-29 18-37 34-8-16-18-28-37-34z" fill="url(#leaf)"/>
+    <circle cx="102" cy="142" r="10" fill="#fff"/>
+    <circle cx="154" cy="142" r="10" fill="#fff"/>
+    <circle cx="102" cy="142" r="4" fill="#203253"/>
+    <circle cx="154" cy="142" r="4" fill="#203253"/>
+    <path d="M95 177c17 20 49 20 66 0" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+
+    <rect x="40" y="220" width="176" height="26" rx="13" fill="#edf4ff" stroke="#bfd2ee" stroke-width="3"/>
+    <circle cx="70" cy="233" r="6" fill="#20be83"/>
+    <circle cx="98" cy="233" r="6" fill="#2f62ce"/>
+    <circle cx="126" cy="233" r="6" fill="#20be83"/>
+    <circle cx="154" cy="233" r="6" fill="#2f62ce"/>
+
+    <path d="M56 76l-17-18" stroke="#2f62ce" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="37" cy="56" r="8" fill="#20be83"/>
+    <path d="M200 76l17-18" stroke="#2f62ce" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="219" cy="56" r="8" fill="#20be83"/>
+  </g>
+
+  <g transform="translate(370 94)">
+    <text x="0" y="96" font-family="Bahnschrift, 'Segoe UI Variable', sans-serif" font-size="114" font-weight="800" fill="#162845" letter-spacing="2">ICTOMAT</text>
+    <text x="4" y="146" font-family="'Trebuchet MS', 'Segoe UI Variable', sans-serif" font-size="34" fill="#445f87">Fragen mit Biss. Antworten mit Sauce.</text>
+    <g transform="translate(4 184)">
+      <rect x="0" y="0" width="110" height="38" rx="19" fill="#ffffff" stroke="#bfd2ee"/>
+      <text x="21" y="25" font-family="'Trebuchet MS', sans-serif" font-size="18" fill="#129d6a">IT</text>
+      <rect x="125" y="0" width="150" height="38" rx="19" fill="#ffffff" stroke="#bfd2ee"/>
+      <text x="146" y="25" font-family="'Trebuchet MS', sans-serif" font-size="18" fill="#2f62ce">CHECKS</text>
+      <rect x="290" y="0" width="138" height="38" rx="19" fill="#ffffff" stroke="#bfd2ee"/>
+      <text x="312" y="25" font-family="'Trebuchet MS', sans-serif" font-size="18" fill="#129d6a">SURVEYS</text>
+    </g>
+  </g>
+</svg>

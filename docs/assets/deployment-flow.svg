@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="420" viewBox="0 0 1400 420">
+  <defs>
+    <style>
+      .t { font-family: Segoe UI, Arial, sans-serif; fill: #111827; }
+      .h { font-size: 24px; font-weight: 700; }
+      .b { font-size: 15px; font-weight: 600; }
+      .s { font-size: 13px; }
+    </style>
+  </defs>
+  <rect width="1400" height="420" fill="#f8fafc"/>
+  <text x="34" y="42" class="t h">Deployment-Flow (Windows + PM2)</text>
+  <rect x="40" y="90" width="220" height="120" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="58" y="120" class="t b">1. Build</text>
+  <text x="58" y="145" class="t s">npm run build:prod</text>
+
+  <rect x="320" y="90" width="260" height="120" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="338" y="120" class="t b">2. Paket bereitstellen</text>
+  <text x="338" y="145" class="t s">Projektordner auf Server kopieren</text>
+
+  <rect x="640" y="90" width="280" height="120" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="658" y="120" class="t b">3. DB migrieren</text>
+  <text x="658" y="145" class="t s">npm run prisma:migrate:deploy</text>
+  <text x="658" y="168" class="t s">npm run prisma:generate</text>
+
+  <rect x="980" y="90" width="340" height="120" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="998" y="120" class="t b">4. Start mit PM2</text>
+  <text x="998" y="145" class="t s">pm2 start ecosystem.config.cjs</text>
+  <text x="998" y="168" class="t s">pm2 save / pm2 startup</text>
+
+  <line x1="260" y1="150" x2="320" y2="150" stroke="#334155" stroke-width="2"/>
+  <polygon points="320,150 308,144 308,156" fill="#334155"/>
+  <line x1="580" y1="150" x2="640" y2="150" stroke="#334155" stroke-width="2"/>
+  <polygon points="640,150 628,144 628,156" fill="#334155"/>
+  <line x1="920" y1="150" x2="980" y2="150" stroke="#334155" stroke-width="2"/>
+  <polygon points="980,150 968,144 968,156" fill="#334155"/>
+
+  <rect x="40" y="260" width="1280" height="120" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="58" y="292" class="t b">Blue/Green-light Update (empfohlen)</text>
+  <text x="58" y="316" class="t s">Neues Paket in separatem Verzeichnis deployen, Migration ausfuehren, PM2 Prozess auf neues Arbeitsverzeichnis umschalten, Healthcheck pruefen, alten Stand als Fallback behalten.</text>
+</svg>

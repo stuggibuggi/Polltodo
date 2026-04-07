@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360">
+  <defs>
+    <style>
+      .t { font-family: Segoe UI, Arial, sans-serif; fill: #111827; }
+      .h { font-size: 22px; font-weight: 700; }
+      .b { font-size: 14px; font-weight: 600; }
+      .s { font-size: 13px; }
+    </style>
+  </defs>
+  <rect width="1200" height="360" fill="#f8fafc"/>
+  <text x="40" y="42" class="t h">Import-/Export-Landschaft</text>
+
+  <rect x="40" y="90" width="270" height="180" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="60" y="120" class="t b">Import</text>
+  <text x="60" y="145" class="t s">- Excel Stammdaten</text>
+  <text x="60" y="168" class="t s">- Prefill Bulk</text>
+  <text x="60" y="191" class="t s">- SQL Objektimport</text>
+
+  <rect x="460" y="90" width="280" height="180" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="480" y="120" class="t b">Umfragetool</text>
+  <text x="480" y="145" class="t s">- Frageboegen + Versionen</text>
+  <text x="480" y="168" class="t s">- Aufgaben + Ergebnisse</text>
+  <text x="480" y="191" class="t s">- Objekt-/Rollenbezug</text>
+
+  <rect x="890" y="90" width="270" height="180" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="910" y="120" class="t b">Export</text>
+  <text x="910" y="145" class="t s">- JSON Frageboegen</text>
+  <text x="910" y="168" class="t s">- Excel Ergebnisse</text>
+  <text x="910" y="191" class="t s">- PDF Ergebnisse</text>
+
+  <line x1="310" y1="180" x2="460" y2="180" stroke="#334155" stroke-width="2"/>
+  <polygon points="460,180 448,174 448,186" fill="#334155"/>
+  <line x1="740" y1="180" x2="890" y2="180" stroke="#334155" stroke-width="2"/>
+  <polygon points="890,180 878,174 878,186" fill="#334155"/>
+</svg>

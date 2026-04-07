@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1100" viewBox="0 0 1800 1100">
+  <defs>
+    <style>
+      .title { font: 700 36px 'Segoe UI', Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 500 18px 'Segoe UI', Arial, sans-serif; fill: #334155; }
+      .box-title { font: 700 20px 'Segoe UI', Arial, sans-serif; fill: #0f172a; }
+      .box-text { font: 500 15px 'Segoe UI', Arial, sans-serif; fill: #1e293b; }
+      .label { font: 600 14px 'Segoe UI', Arial, sans-serif; fill: #0f172a; }
+      .line-label { font: 600 13px 'Segoe UI', Arial, sans-serif; fill: #334155; }
+      .box { fill: #f8fafc; stroke: #94a3b8; stroke-width: 2; rx: 18; }
+      .core { fill: #e0f2fe; stroke: #0284c7; stroke-width: 2.5; rx: 18; }
+      .ext { fill: #f1f5f9; stroke: #64748b; stroke-width: 2; rx: 18; }
+      .data { fill: #ecfccb; stroke: #65a30d; stroke-width: 2; rx: 18; }
+      .sec { fill: #ede9fe; stroke: #7c3aed; stroke-width: 2; rx: 18; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#mArrow); }
+      .arrow-dash { stroke: #334155; stroke-width: 2; stroke-dasharray: 7 7; fill: none; marker-end: url(#mArrow); }
+      .icon-stroke { stroke: #0f172a; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .icon-fill { fill: #0f172a; }
+    </style>
+    <marker id="mArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1800" height="1100" fill="#ffffff"/>
+  <text x="60" y="70" class="title">ICTOMAT – Funktion &amp; Integration (Visio-Style)</text>
+  <text x="60" y="104" class="subtitle">Übersicht über Benutzerfluss, Kernkomponenten und angebundene Systeme</text>
+
+  <!-- Benutzer -->
+  <rect class="box" x="70" y="190" width="280" height="160" rx="18"/>
+  <circle cx="125" cy="245" r="18" class="icon-stroke"/>
+  <path d="M98 292 Q125 268 152 292" class="icon-stroke"/>
+  <text x="165" y="238" class="box-title">Benutzer</text>
+  <text x="165" y="266" class="box-text">Admin / Bearbeiter</text>
+  <text x="165" y="288" class="box-text">Prüfer / Leser</text>
+
+  <!-- Browser -->
+  <rect class="box" x="70" y="420" width="280" height="160" rx="18"/>
+  <rect x="105" y="456" width="65" height="46" class="icon-stroke" rx="6"/>
+  <line x1="105" y1="470" x2="170" y2="470" class="icon-stroke"/>
+  <circle cx="115" cy="463" r="2" class="icon-fill"/>
+  <circle cx="122" cy="463" r="2" class="icon-fill"/>
+  <circle cx="129" cy="463" r="2" class="icon-fill"/>
+  <text x="185" y="474" class="box-title">Web Browser</text>
+  <text x="185" y="501" class="box-text">Login / Startseite</text>
+  <text x="185" y="523" class="box-text">Editor / Umfrage</text>
+
+  <!-- Client -->
+  <rect class="core" x="460" y="250" width="360" height="260" rx="18"/>
+  <path d="M510 314 h55 l12 20 h60 l-10 56 h-135z" class="icon-stroke"/>
+  <circle cx="545" cy="404" r="12" class="icon-stroke"/>
+  <circle cx="615" cy="404" r="12" class="icon-stroke"/>
+  <text x="510" y="306" class="box-title">ICTOMAT Client (Frontend)</text>
+  <text x="510" y="438" class="box-text">- Startseite mit Kacheln/Favoriten</text>
+  <text x="510" y="460" class="box-text">- Fragebogen-Editor &amp; Vorschau</text>
+  <text x="510" y="482" class="box-text">- Durchführung inkl. Save/Resume</text>
+
+  <!-- API -->
+  <rect class="core" x="900" y="250" width="380" height="260" rx="18"/>
+  <rect x="950" y="302" width="70" height="90" class="icon-stroke" rx="6"/>
+  <line x1="963" y1="322" x2="1007" y2="322" class="icon-stroke"/>
+  <line x1="963" y1="338" x2="1007" y2="338" class="icon-stroke"/>
+  <line x1="963" y1="354" x2="1007" y2="354" class="icon-stroke"/>
+  <text x="1040" y="306" class="box-title">ICTOMAT API (Node.js)</text>
+  <text x="1040" y="334" class="box-text">- Auth (lokal/LDAP)</text>
+  <text x="1040" y="356" class="box-text">- Rollen, Objektzugriff, Locks</text>
+  <text x="1040" y="378" class="box-text">- Jira Export / Anhänge</text>
+  <text x="1040" y="400" class="box-text">- Readonly Ergebnislinks</text>
+  <text x="1040" y="422" class="box-text">- SQL Importer &amp; Validierung</text>
+
+  <!-- DB -->
+  <rect class="data" x="1370" y="250" width="330" height="260" rx="18"/>
+  <ellipse cx="1438" cy="318" rx="38" ry="16" class="icon-stroke"/>
+  <path d="M1400 318 v70 c0 9 76 9 76 0 v-70" class="icon-stroke"/>
+  <ellipse cx="1438" cy="388" rx="38" ry="16" class="icon-stroke"/>
+  <text x="1500" y="306" class="box-title">PostgreSQL</text>
+  <text x="1500" y="334" class="box-text">- Fragebögen &amp; Versionen</text>
+  <text x="1500" y="356" class="box-text">- Antworten / Ergebnisse</text>
+  <text x="1500" y="378" class="box-text">- Jira-Konfiguration</text>
+  <text x="1500" y="400" class="box-text">- Favoriten / Startseiten-Config</text>
+  <text x="1500" y="422" class="box-text">- Editor-/Survey-Sperren</text>
+
+  <!-- Externe Systeme -->
+  <rect class="ext" x="900" y="620" width="240" height="150" rx="18"/>
+  <text x="940" y="670" class="box-title">Jira Cloud/DC</text>
+  <text x="940" y="700" class="box-text">Issues, Felder,</text>
+  <text x="940" y="722" class="box-text">Anhänge, Links</text>
+
+  <rect class="ext" x="1180" y="620" width="240" height="150" rx="18"/>
+  <text x="1228" y="670" class="box-title">LDAP / AD</text>
+  <text x="1228" y="700" class="box-text">Authentifizierung</text>
+  <text x="1228" y="722" class="box-text">(optional)</text>
+
+  <rect class="ext" x="1460" y="620" width="240" height="150" rx="18"/>
+  <text x="1510" y="670" class="box-title">Dateien</text>
+  <text x="1510" y="700" class="box-text">Excel / PDF Export</text>
+  <text x="1510" y="722" class="box-text">Anhänge für Jira</text>
+
+  <!-- Fluss unten -->
+  <rect class="sec" x="70" y="820" width="1630" height="210" rx="18"/>
+  <text x="105" y="866" class="box-title">Kernablauf (vereinfacht)</text>
+  <text x="105" y="900" class="box-text">1) Benutzer meldet sich an → 2) Fragebogen öffnen/starten → 3) Antworten speichern/fortsetzen → 4) Absenden</text>
+  <text x="105" y="928" class="box-text">5) Ergebnis anzeigen (inkl. readonly Link) → 6) Optional Jira-Ticket inkl. Beschreibung/Anhänge erzeugen</text>
+  <text x="105" y="956" class="box-text">7) Historie mit Ticket-Link und Ergebnisansicht abrufbar</text>
+
+  <!-- Verbindungen -->
+  <path class="arrow" d="M350 270 H460"/>
+  <text x="370" y="258" class="line-label">Bedient UI</text>
+  <path class="arrow" d="M350 500 H460"/>
+  <text x="370" y="488" class="line-label">HTTPS</text>
+  <path class="arrow" d="M820 380 H900"/>
+  <text x="842" y="368" class="line-label">REST / JSON</text>
+  <path class="arrow" d="M1280 380 H1370"/>
+  <text x="1298" y="368" class="line-label">Prisma / SQL</text>
+
+  <path class="arrow" d="M1090 510 V620"/>
+  <text x="1102" y="574" class="line-label">Issue Create/Update</text>
+  <path class="arrow-dash" d="M1230 510 V620"/>
+  <text x="1242" y="574" class="line-label">Auth-Check</text>
+  <path class="arrow" d="M1380 510 V620"/>
+  <text x="1392" y="574" class="line-label">Export-Dateien</text>
+
+  <path class="arrow-dash" d="M1070 770 V820"/>
+  <path class="arrow-dash" d="M1300 770 V820"/>
+  <path class="arrow-dash" d="M1570 770 V820"/>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="420" viewBox="0 0 1400 420">
+  <defs>
+    <style>
+      .t { font-family: Segoe UI, Arial, sans-serif; fill: #111827; }
+      .h { font-size: 24px; font-weight: 700; }
+      .b { font-size: 15px; font-weight: 600; }
+      .s { font-size: 13px; }
+    </style>
+  </defs>
+  <rect width="1400" height="420" fill="#f8fafc"/>
+  <text x="34" y="42" class="t h">API Authentifizierung und Autorisierung</text>
+
+  <rect x="40" y="90" width="240" height="120" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="58" y="120" class="t b">1. Login</text>
+  <text x="58" y="145" class="t s">POST /api/auth/login</text>
+  <text x="58" y="168" class="t s">Setzt Cookie umfrage_auth</text>
+
+  <rect x="340" y="90" width="260" height="120" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="358" y="120" class="t b">2. requireAuth</text>
+  <text x="358" y="145" class="t s">JWT Verifikation aus Cookie</text>
+  <text x="358" y="168" class="t s">Fehler -> 401 UNAUTHORIZED</text>
+
+  <rect x="660" y="90" width="260" height="120" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="678" y="120" class="t b">3. requireRole</text>
+  <text x="678" y="145" class="t s">Rollencheck (ADMIN/EDITOR)</text>
+  <text x="678" y="168" class="t s">Fehler -> 403 FORBIDDEN</text>
+
+  <rect x="980" y="90" width="340" height="120" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="998" y="120" class="t b">4. Handler</text>
+  <text x="998" y="145" class="t s">Business-Logik, Prisma, Integrationen</text>
+  <text x="998" y="168" class="t s">Response JSON / Fehlercodes</text>
+
+  <line x1="280" y1="150" x2="340" y2="150" stroke="#334155" stroke-width="2"/>
+  <polygon points="340,150 328,144 328,156" fill="#334155"/>
+  <line x1="600" y1="150" x2="660" y2="150" stroke="#334155" stroke-width="2"/>
+  <polygon points="660,150 648,144 648,156" fill="#334155"/>
+  <line x1="920" y1="150" x2="980" y2="150" stroke="#334155" stroke-width="2"/>
+  <polygon points="980,150 968,144 968,156" fill="#334155"/>
+
+  <rect x="40" y="260" width="1280" height="110" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="58" y="292" class="t b">Cookie-Details</text>
+  <text x="58" y="316" class="t s">Name: umfrage_auth | HttpOnly | sameSite=lax | Laufzeit: 7 Tage | Signatur mit JWT_SECRET.</text>
+</svg>

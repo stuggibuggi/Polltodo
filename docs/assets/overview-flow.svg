@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360">
+  <defs>
+    <style>
+      .t { font-family: Segoe UI, Arial, sans-serif; fill: #1f2937; }
+      .h { font-size: 24px; font-weight: 700; }
+      .b { font-size: 16px; font-weight: 600; }
+      .s { font-size: 14px; }
+    </style>
+  </defs>
+  <rect width="1200" height="360" fill="#f8fafc"/>
+  <text x="40" y="42" class="t h">Systemueberblick</text>
+  <rect x="40" y="80" rx="10" ry="10" width="250" height="180" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="60" y="115" class="t b">Benutzer</text>
+  <text x="60" y="145" class="t s">- Anmeldung (lokal/LDAP)</text>
+  <text x="60" y="170" class="t s">- Offene Umfragen</text>
+  <text x="60" y="195" class="t s">- Aufgaben abschliessen</text>
+  <rect x="470" y="80" rx="10" ry="10" width="260" height="180" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="490" y="115" class="t b">Umfragetool</text>
+  <text x="490" y="145" class="t s">- Frageboegen und Versionen</text>
+  <text x="490" y="170" class="t s">- Objekt- und Rollenlogik</text>
+  <text x="490" y="195" class="t s">- Ergebnisse und Exporte</text>
+  <rect x="900" y="80" rx="10" ry="10" width="260" height="180" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="920" y="115" class="t b">Drittsysteme</text>
+  <text x="920" y="145" class="t s">- PostgreSQL</text>
+  <text x="920" y="170" class="t s">- MS SQL (Import)</text>
+  <text x="920" y="195" class="t s">- Jira</text>
+  <line x1="290" y1="170" x2="470" y2="170" stroke="#334155" stroke-width="2"/>
+  <polygon points="470,170 458,164 458,176" fill="#334155"/>
+  <line x1="730" y1="170" x2="900" y2="170" stroke="#334155" stroke-width="2"/>
+  <polygon points="900,170 888,164 888,176" fill="#334155"/>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420">
+  <defs>
+    <style>
+      .t { font-family: Segoe UI, Arial, sans-serif; fill: #111827; }
+      .h { font-size: 22px; font-weight: 700; }
+      .b { font-size: 14px; font-weight: 600; }
+    </style>
+  </defs>
+  <rect width="1200" height="420" fill="#f8fafc"/>
+  <text x="40" y="40" class="t h">Admin-Reiter (Ueberblick)</text>
+  <g transform="translate(40,70)">
+    <rect x="0" y="0" width="160" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="16" y="32" class="t b">Fragebogen</text>
+    <rect x="175" y="0" width="160" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="191" y="32" class="t b">Benutzergruppen</text>
+    <rect x="350" y="0" width="160" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="397" y="32" class="t b">Benutzer</text>
+    <rect x="525" y="0" width="160" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="575" y="32" class="t b">Objekte</text>
+    <rect x="700" y="0" width="160" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="755" y="32" class="t b">Rollen</text>
+    <rect x="875" y="0" width="160" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="913" y="32" class="t b">Objektgruppen</text>
+    <rect x="0" y="72" width="160" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="35" y="104" class="t b">Startseite</text>
+    <rect x="175" y="72" width="160" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="200" y="104" class="t b">Fragetypen</text>
+    <rect x="350" y="72" width="160" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="400" y="104" class="t b">Import</text>
+    <rect x="525" y="72" width="245" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="542" y="104" class="t b">Objekt-Import (SQL)</text>
+    <rect x="785" y="72" width="160" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="827" y="104" class="t b">Ergebnisse</text>
+    <rect x="960" y="72" width="95" height="52" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="987" y="104" class="t b">Jira</text>
+  </g>
+</svg>

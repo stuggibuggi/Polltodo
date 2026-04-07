@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="420" viewBox="0 0 1400 420">
+  <defs>
+    <style>
+      .t { font-family: Segoe UI, Arial, sans-serif; fill: #111827; }
+      .h { font-size: 24px; font-weight: 700; }
+      .b { font-size: 15px; font-weight: 600; }
+      .s { font-size: 13px; }
+    </style>
+  </defs>
+  <rect width="1400" height="420" fill="#f8fafc"/>
+  <text x="34" y="42" class="t h">Runtime-Betrieb und Monitoring</text>
+
+  <rect x="40" y="90" width="300" height="140" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="58" y="120" class="t b">PM2 Prozesse</text>
+  <text x="58" y="145" class="t s">umfrage-server</text>
+  <text x="58" y="168" class="t s">umfrage-client (vite preview)</text>
+
+  <rect x="390" y="90" width="300" height="140" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="408" y="120" class="t b">Befehle</text>
+  <text x="408" y="145" class="t s">pm2 status / logs / restart / stop</text>
+  <text x="408" y="168" class="t s">pm2 save / pm2 startup</text>
+
+  <rect x="740" y="90" width="300" height="140" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="758" y="120" class="t b">Health</text>
+  <text x="758" y="145" class="t s">GET /api/health</text>
+  <text x="758" y="168" class="t s">DB-/API-Erreichbarkeit pruefen</text>
+
+  <rect x="1090" y="90" width="270" height="140" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="1108" y="120" class="t b">Fehleranalyse</text>
+  <text x="1108" y="145" class="t s">Prisma Fehlercodes</text>
+  <text x="1108" y="168" class="t s">Import/Jira/LDAP Logs</text>
+
+  <rect x="40" y="270" width="1320" height="110" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="58" y="302" class="t b">Regelbetrieb</text>
+  <text x="58" y="326" class="t s">1) Status pruefen 2) Logs pruefen 3) Healthcheck 4) Scheduler-Laufzeiten 5) Datenbank-Migrationstand 6) Backup/Restore-Faehigkeit.</text>
+</svg>
