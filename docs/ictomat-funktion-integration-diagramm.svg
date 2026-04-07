@@ -23,7 +23,7 @@
   </defs>
 
   <rect x="0" y="0" width="1800" height="1100" fill="#ffffff"/>
-  <text x="60" y="70" class="title">ICTOMAT – Funktion &amp; Integration (Visio-Style)</text>
+  <text x="60" y="70" class="title">Polltodo – Funktion &amp; Integration (Visio-Style)</text>
   <text x="60" y="104" class="subtitle">Übersicht über Benutzerfluss, Kernkomponenten und angebundene Systeme</text>
 
   <!-- Benutzer -->
@@ -50,7 +50,7 @@
   <path d="M510 314 h55 l12 20 h60 l-10 56 h-135z" class="icon-stroke"/>
   <circle cx="545" cy="404" r="12" class="icon-stroke"/>
   <circle cx="615" cy="404" r="12" class="icon-stroke"/>
-  <text x="510" y="306" class="box-title">ICTOMAT Client (Frontend)</text>
+  <text x="510" y="306" class="box-title">Polltodo Client (Frontend)</text>
   <text x="510" y="438" class="box-text">- Startseite mit Kacheln/Favoriten</text>
   <text x="510" y="460" class="box-text">- Fragebogen-Editor &amp; Vorschau</text>
   <text x="510" y="482" class="box-text">- Durchführung inkl. Save/Resume</text>
@@ -61,7 +61,7 @@
   <line x1="963" y1="322" x2="1007" y2="322" class="icon-stroke"/>
   <line x1="963" y1="338" x2="1007" y2="338" class="icon-stroke"/>
   <line x1="963" y1="354" x2="1007" y2="354" class="icon-stroke"/>
-  <text x="1040" y="306" class="box-title">ICTOMAT API (Node.js)</text>
+  <text x="1040" y="306" class="box-title">Polltodo API (Node.js)</text>
   <text x="1040" y="334" class="box-text">- Auth (lokal/LDAP)</text>
   <text x="1040" y="356" class="box-text">- Rollen, Objektzugriff, Locks</text>
   <text x="1040" y="378" class="box-text">- Jira Export / Anhänge</text>

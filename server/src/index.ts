@@ -1096,12 +1096,12 @@ type QuestionnaireEditorLockInfo = {
 }
 
 const DEFAULT_HOME_PAGE_CONFIG: HomePageConfig = {
-  title: 'Anwendungs-Fragenkatalog',
-  subtitle: 'Waehlen Sie einen Fragebogen zum Ausfuellen.',
+  title: 'Polltodo',
+  subtitle: 'Ihre Umfrage- und Aufgabenplattform.',
   descriptionHtml: '',
   faviconDataUrl: '',
   welcomeContentHtml:
-    '<h2>Willkommen bei ICTOMAT</h2><p>Offene Umfragen, globale Kataloge und Historie auf einen Blick.</p>',
+    '<h2>Willkommen bei Polltodo</h2><p>Offene Umfragen, globale Kataloge und Historie auf einen Blick.</p>',
   headingOpenTasks: 'Offene Umfragen',
   headingGlobalCatalogs: 'Globale Fragenkataloge',
   headingClosedTasks: 'Abgeschlossene Umfragen',

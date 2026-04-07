@@ -6,7 +6,7 @@ type WordWaveProps = {
   style?: CSSProperties
 }
 
-export function WordWave({ text = 'ICTOMAT', className = '', style }: WordWaveProps) {
+export function WordWave({ text = 'Polltodo', className = '', style }: WordWaveProps) {
   const letters = text.split('')
   return (
     <div className={`ictowave ${className}`.trim()} aria-hidden="true" style={style}>

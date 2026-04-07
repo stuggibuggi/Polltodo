@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
-  <title id="title">ICTOMAT Logo Light</title>
-  <desc id="desc">Witziges ICTOMAT Logo fuer helles Layout mit Tomato-Roboter-Maskottchen.</desc>
+  <title id="title">Polltodo Logo Light</title>
+  <desc id="desc">Polltodo Logo fuer helles Layout mit Tomato-Roboter-Maskottchen.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#f7fbff"/>
@@ -41,8 +41,8 @@
   </g>
 
   <g transform="translate(370 94)">
-    <text x="0" y="96" font-family="Bahnschrift, 'Segoe UI Variable', sans-serif" font-size="114" font-weight="800" fill="#162845" letter-spacing="2">ICTOMAT</text>
-    <text x="4" y="146" font-family="'Trebuchet MS', 'Segoe UI Variable', sans-serif" font-size="34" fill="#445f87">Fragen mit Biss. Antworten mit Sauce.</text>
+    <text x="0" y="96" font-family="Bahnschrift, 'Segoe UI Variable', sans-serif" font-size="114" font-weight="800" fill="#162845" letter-spacing="2">Polltodo</text>
+    <text x="4" y="146" font-family="'Trebuchet MS', 'Segoe UI Variable', sans-serif" font-size="34" fill="#445f87">Poll to Do – Umfragen erledigt.</text>
     <g transform="translate(4 184)">
       <rect x="0" y="0" width="110" height="38" rx="19" fill="#ffffff" stroke="#bfd2ee"/>
       <text x="21" y="25" font-family="'Trebuchet MS', sans-serif" font-size="18" fill="#129d6a">IT</text>

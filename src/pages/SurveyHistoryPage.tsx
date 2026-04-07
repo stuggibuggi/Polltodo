@@ -7,12 +7,12 @@ import { useAuth } from '../lib/auth'
 import { api, type HomePageConfig, type ObjectSurveyTask, type SubmissionRecord } from '../lib/api'
 
 const DEFAULT_HOME_CONFIG: HomePageConfig = {
-  title: 'Anwendungs-Fragenkatalog',
-  subtitle: 'Waehlen Sie einen Fragebogen zum Ausfuellen.',
+  title: 'Polltodo',
+  subtitle: 'Ihre Umfrage- und Aufgabenplattform.',
   descriptionHtml: '',
   faviconDataUrl: '',
   welcomeContentHtml:
-    '<h2>Willkommen bei ICTOMAT</h2><p>Offene Umfragen, globale Kataloge und Historie auf einen Blick.</p>',
+    '<h2>Willkommen bei Polltodo</h2><p>Offene Umfragen, globale Kataloge und Historie auf einen Blick.</p>',
   headingOpenTasks: 'Offene Umfragen',
   headingGlobalCatalogs: 'Globale Fragenkataloge',
   headingClosedTasks: 'Abgeschlossene Umfragen',

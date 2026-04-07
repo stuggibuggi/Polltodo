@@ -64,7 +64,7 @@ export function AppLayout({
               <div className="flex items-center gap-5">
                 {titleAddonLeft}
                 <h1 className="font-brand-icto text-xl tracking-tight text-[var(--color-foreground)] sm:text-2xl">
-                  {title ?? 'Anwendungs-Fragenkatalog'}
+                  {title ?? 'Polltodo'}
                 </h1>
                 {titleAddon}
               </div>

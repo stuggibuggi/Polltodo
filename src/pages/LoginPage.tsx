@@ -74,7 +74,7 @@ export function LoginPage() {
               className="font-brand-icto tracking-tight text-[var(--color-foreground)]"
               style={{ fontSize: 'clamp(2rem, 3.2vw, 4rem)', lineHeight: 1.05 }}
             >
-              ICTOMAT<sup style={{ fontSize: '0.5em', marginLeft: '0.08em' }}>2</sup>
+              Polltodo
             </span>
           </div>
           {config.logoDataUrl && (
